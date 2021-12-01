@@ -1,9 +1,9 @@
 export const setValidityCount = (text, count) => {
-  let filteredTextContent = text ? text : '';
+  let textContent = text ? text : '';
 
-  if (filteredTextContent.length > count) {
-    filteredTextContent = `${filteredTextContent.substring(0, count)  }...`;
+  if (textContent.length > count) {
+    textContent = `${textContent.substring(0, count)  }...`;
   }
 
-  return filteredTextContent;
+  return textContent;
 };

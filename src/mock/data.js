@@ -1,17 +1,9 @@
 export const titles = [
-  'Звёздные войны. Эпизод 5: Империя наносит ответный удар',
-  'Бойцовский клуб',
-  'Властелин колец: Братство кольца',
-  'Матрица',
-  '96',
-];
-
-export const originalTitles = [
-  'Звёздные войны. Эпизод 5: Империя наносит ответный удар',
-  'Бойцовский клуб',
-  'Властелин колец: Братство кольца',
-  'Матрица',
-  '96',
+  'The Lion King',
+  'The Holiday',
+  'ALF',
+  'Shrek',
+  'Friends',
 ];
 
 export const descriptions = [
@@ -72,7 +64,7 @@ export const countries = [
   'Brazil',
 ];
 
-export const smiles = ['smile', 'sleeping', 'puke', 'angry'];
+export const emoji = ['smile', 'sleeping', 'puke', 'angry'];
 
 export const commentContent = [
   'A team of explorers travel through a wormhole in space in an attempt to ensure humanity survival.',

@@ -1,5 +1,20 @@
-export const createFilmDetailsPopupTemplate = () => (
-  `<section class="film-details">
+
+const createFilmDetailsControlsTemplate = (film) => {
+  const { isFavorite, isAlreadyWatched, isWatchList } = film;
+
+  return (`
+    <button type="button" class="film-details__control-button ${isWatchList ? 'film-details__control-button--active' : ''} film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
+    <button type="button" class="film-details__control-button ${isAlreadyWatched ? 'film-details__control-button--active' : ''} film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+    <button type="button" class="film-details__control-button ${isFavorite ? 'film-details__control-button--active' : ''} film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+  `);
+};
+
+
+export const createFilmDetailsPopupTemplate = (film) => {
+
+  const {title, description, rating, genre, poster, age, director, writer, actor, countrie} = film;
+
+  return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
       <div class="film-details__close">
@@ -7,35 +22,35 @@ export const createFilmDetailsPopupTemplate = () => (
       </div>
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+          <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
 
-            <p class="film-details__age">18+</p>
+            <p class="film-details__age">${age}</p>
         </div>
 
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">The Great Flamarion</h3>
-              <p class="film-details__title-original">Original: The Great Flamarion</p>
+              <h3 class="film-details__title">${title ? title : ''}</h3>
+              <p class="film-details__title-original">Original: ${title ? title : ''}</p>
             </div>
 
             <div class="film-details__rating">
-              <p class="film-details__total-rating">8.9</p>
+              <p class="film-details__total-rating">${rating ? rating : ''}</p>
             </div>
           </div>
 
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">Anthony Mann</td>
+              <td class="film-details__cell">${director ? director : ''}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+              <td class="film-details__cell">${writer ? writer : ''}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+              <td class="film-details__cell">${actor}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
@@ -47,7 +62,7 @@ export const createFilmDetailsPopupTemplate = () => (
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">USA</td>
+              <td class="film-details__cell">${countrie}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
@@ -58,28 +73,12 @@ export const createFilmDetailsPopupTemplate = () => (
             </tr>
           </table>
 
-          <p class="film-details__film-description">
-            The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading
-            up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous
-            marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful
-            assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant.
-            Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing
-            her no good husband during one of their acts.
-          </p>
+          <p class="film-details__film-description">${description}</p>
         </div>
       </div>
 
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--watchlist"
-                id="watchlist" ="watchlist">Add to watchlist
-        </button>
-        <button type="button"
-                class="film-details__control-button film-details__control-button--active film-details__control-button--watched"
-                id="watched" ="watched">Already watched
-        </button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite"
-                id="favorite" ="favorite">Add to favorites
-        </button>
+        ${createFilmDetailsControlsTemplate(film)}
       </section>
     </div>
 
@@ -178,4 +177,5 @@ export const createFilmDetailsPopupTemplate = () => (
           </div>
         </div>
       </section>`
-);
+  );
+};
