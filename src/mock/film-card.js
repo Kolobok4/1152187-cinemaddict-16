@@ -30,5 +30,6 @@ export const generateFilmCard = () => ({
   commentMessage: generateRandomContent(commentContent),
   emotion: generateRandomContent(emoji),
   date: generateRandomContent(dateComments),
+  filmCount: getRandomInteger(1, 25),
 });
 

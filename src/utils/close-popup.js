@@ -1,6 +1,6 @@
 
 const closeKeyName = 'Escape';
-const closePopupButton = document.querySelector('.close-btn');
+
 
 const removePopap = () => {
   const infoPopup = document.querySelector('.film-details');
