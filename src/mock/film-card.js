@@ -1,5 +1,5 @@
 import {
-  titles,  actors,  comementAuthors,  countries,  descriptions,  genres,  images,  writers,  directors,  ageRating,
+  titles,  actors,  commentAuthors,  countries,  descriptions,  genres,  images,  writers,  directors,  ageRating,
   releases, commentContent, emoji, dateComments
 } from './data.js';
 
@@ -11,7 +11,7 @@ export const generateFilmCard = () => ({
   title: generateRandomContent(titles),
   originalTitle: generateRandomContent(titles),
   age: generateRandomContent(ageRating),
-  commentAuthor: generateRandomContent(comementAuthors),
+  commentAuthor: generateRandomContent(commentAuthors),
   countrie: generateRandomContent(countries),
   description: generateRandomContent(descriptions),
   poster: generateRandomContent(images),
@@ -26,7 +26,6 @@ export const generateFilmCard = () => ({
   isFavorite: Boolean(getRandomInteger(0, 1)),
   isWatchList: Boolean(getRandomInteger(0, 1)),
   isAlreadyWatched: Boolean(getRandomInteger(0, 1)),
-  author: generateRandomContent(comementAuthors),
   commentMessage: generateRandomContent(commentContent),
   emotion: generateRandomContent(emoji),
   date: generateRandomContent(dateComments),

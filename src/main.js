@@ -10,7 +10,7 @@ import {generateFilmCard} from './mock/film-card.js';
 import {FILMS_COUNT, FILMS_COUNT_PER_STEP} from './const.js';
 import {generateFilter} from './mock/filter.js';
 import {createFilmTemplate} from './view/film-view.js';
-
+import './utils/close-popup';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');

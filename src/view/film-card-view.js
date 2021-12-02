@@ -19,13 +19,13 @@ export const createFilmCardTemplate = (film) => {
         <h3 class="film-card__title">${title ? title : ''}</h3>
         <p class="film-card__rating">${rating ? rating : ''}</p>
         <p class="film-card__info">
-          <span class="film-card__year">${filmYear}</span>
-          <span class="film-card__duration">${runtime}</span>
-          <span class="film-card__genre">${genre}</span>
+          <span class="film-card__year">${filmYear ? filmYear : ''}</span>
+          <span class="film-card__duration">${runtime ? runtime : ''}</span>
+          <span class="film-card__genre">${genre ? genre : ''}</span>
         </p>
         <img src="./images/posters/${poster}" alt="${title ? title : ''}" class="film-card__poster">
         <p class="film-card__description">${setValidityCount(description, DESCRIPTION_COUNT)}</p>
-        <span class="film-card__comments">${commentCount} comments</span>
+        <span class="film-card__comments">${commentCount ? commentCount : ''} comments</span>
       </a>
       ${controlsTemplateButton}
     </article>`

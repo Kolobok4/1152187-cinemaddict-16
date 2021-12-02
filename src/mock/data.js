@@ -101,7 +101,7 @@ export const ageRating = [
   '0+',
 ];
 
-export const comementAuthors = [
+export const commentAuthors = [
   'Arnold Schwarzenegger',
   'Robert Patrick',
   'Robert',
