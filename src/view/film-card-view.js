@@ -8,7 +8,7 @@ const createFilmCardControlsTemplate = (isAlreadyWatched, isFavorite, isWatchLis
     </div>`);
 
 export const createFilmCardTemplate = (film) => {
-  const {title, description, rating, genre, poster, comment, isAlreadyWatched, isFavorite, isWatchList} = film;
+  const {title, description, rating, genre, poster, comment, runtime, isAlreadyWatched, isFavorite, isWatchList} = film;
   const controlsTemplateButton = createFilmCardControlsTemplate(isAlreadyWatched, isFavorite, isWatchList);
 
   return (
@@ -18,12 +18,12 @@ export const createFilmCardTemplate = (film) => {
         <p class="film-card__rating">${rating ? rating : ''}</p>
         <p class="film-card__info">
           <span class="film-card__year">1933</span>
-          <span class="film-card__duration">54m</span>
+          <span class="film-card__duration">${runtime}</span>
           <span class="film-card__genre">${genre}</span>
         </p>
         <img src="./images/posters/${poster}" alt="${title ? title : ''}" class="film-card__poster">
         <p class="film-card__description">${setValidityCount(description, DESCRIPTION_COUNT)}</p>
-        <span class="film-card__comments">comments</span>
+        <span class="film-card__comments">${comment} comments</span>
       </a>
       ${controlsTemplateButton}
     </article>`

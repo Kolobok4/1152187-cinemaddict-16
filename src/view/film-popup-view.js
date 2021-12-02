@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 
 const createFilmDetailsControlsTemplate = (film) => {
   const { isFavorite, isAlreadyWatched, isWatchList } = film;
@@ -8,11 +9,33 @@ const createFilmDetailsControlsTemplate = (film) => {
     <button type="button" class="film-details__control-button ${isFavorite ? 'film-details__control-button--active' : ''} film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
   `);
 };
+const createCommentTemplate = (comments) => {
 
+  const { author, date, emotion, commentMessage } = comments;
+  const fullDate = dayjs(date).format('YYYY/MM/D H:mm');
+
+  return (`
+      <li class="film-details__comment">
+        <span class="film-details__comment-emoji">
+          <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
+        </span>
+        <div>
+          <p class="film-details__comment-text">${commentMessage}</p>
+          <p class="film-details__comment-info">
+            <span class="film-details__comment-author">${author}</span>
+            <span class="film-details__comment-day">${fullDate}</span>
+            <button class="film-details__comment-delete">Delete</button>
+          </p>
+        </div>
+      </li>
+    `);
+
+};
 
 export const createFilmDetailsPopupTemplate = (film) => {
 
-  const {title, description, rating, genre, poster, age, director, writer, actor, countrie} = film;
+  const {title, description, rating, poster, age, director, writer, actor, countrie, release} = film;
+  const reliseFilmDate = dayjs(release.date).format('D MMMM YYYY');
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -23,22 +46,18 @@ export const createFilmDetailsPopupTemplate = (film) => {
       <div class="film-details__info-wrap">
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/${poster}" alt="">
-
             <p class="film-details__age">${age}</p>
         </div>
-
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${title ? title : ''}</h3>
               <p class="film-details__title-original">Original: ${title ? title : ''}</p>
             </div>
-
             <div class="film-details__rating">
               <p class="film-details__total-rating">${rating ? rating : ''}</p>
             </div>
           </div>
-
           <table class="film-details__table">
             <tr class="film-details__row">
               <td class="film-details__term">Director</td>
@@ -54,7 +73,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${reliseFilmDate}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -72,103 +91,42 @@ export const createFilmDetailsPopupTemplate = (film) => {
                 <span class="film-details__genre">Mystery</span></td>
             </tr>
           </table>
-
           <p class="film-details__film-description">${description}</p>
         </div>
       </div>
-
       <section class="film-details__controls">
         ${createFilmDetailsControlsTemplate(film)}
       </section>
     </div>
-
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span>
         </h3>
-
         <ul class="film-details__comments-list">
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Interesting setting and a good cast</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">Tim Macoveev</span>
-                <span class="film-details__comment-day">2019/12/31 23:59</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/sleeping.png" width="55" height="55" alt="emoji-sleeping">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Booooooooooring</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/puke.png" width="55" height="55" alt="emoji-puke">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Very very old. Meh</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">2 days ago</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/angry.png" width="55" height="55" alt="emoji-angry">
-            </span>
-            <div>
-              <p class="film-details__comment-text">Almost two hours? Seriously?</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">John Doe</span>
-                <span class="film-details__comment-day">Today</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
+          ${createCommentTemplate(film)}
         </ul>
-
         <div class="film-details__new-comment">
           <div class="film-details__add-emoji-label"></div>
-
           <label class="film-details__comment-label">
             <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here"
                       ="comment"></textarea>
           </label>
-
           <div class="film-details__emoji-list">
             <input class="film-details__emoji-item visually-hidden" ="comment-emoji" type="radio"
                    id="emoji-smile" value="smile">
               <label class="film-details__emoji-label" htmlFor="emoji-smile">
                 <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
               </label>
-
               <input class="film-details__emoji-item visually-hidden" ="comment-emoji" type="radio"
                      id="emoji-sleeping" value="sleeping">
                 <label class="film-details__emoji-label" htmlFor="emoji-sleeping">
                   <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
                 </label>
-
                 <input class="film-details__emoji-item visually-hidden" ="comment-emoji" type="radio"
                        id="emoji-puke" value="puke">
                   <label class="film-details__emoji-label" htmlFor="emoji-puke">
                     <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
                   </label>
-
                   <input class="film-details__emoji-item visually-hidden" ="comment-emoji" type="radio"
                          id="emoji-angry" value="angry">
                     <label class="film-details__emoji-label" htmlFor="emoji-angry">

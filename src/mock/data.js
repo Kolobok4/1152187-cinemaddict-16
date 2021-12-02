@@ -56,6 +56,14 @@ export const actors = [
   ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss', 'Hugo Weaving'],
 ];
 
+export const releases = [
+  '1929-05-11T00:00:00.000Z',
+  '1933-06-14T00:00:00.000Z',
+  '1955-03-21T00:00:00.000Z',
+  '1964-07-05T00:00:00.000Z',
+  '1936-10-01T00:00:00.000Z',
+];
+
 export const countries = [
   'United States',
   'India',
@@ -64,7 +72,18 @@ export const countries = [
   'Brazil',
 ];
 
-export const emoji = ['smile', 'sleeping', 'puke', 'angry'];
+export const emoji = [
+  'smile',
+  'sleeping',
+  'puke',
+  'angry',
+];
+export const dateComments = [
+  '2015-01-11T16:11:48.554Z',
+  '2016-04-11T16:4:37.554Z',
+  '2019-05-11T16:19:21.554Z',
+  '2013-02-11T16:21:32.554Z',
+];
 
 export const commentContent = [
   'A team of explorers travel through a wormhole in space in an attempt to ensure humanity survival.',
@@ -82,7 +101,7 @@ export const ageRating = [
   '0+',
 ];
 
-export const authors = [
+export const comementAuthors = [
   'Arnold Schwarzenegger',
   'Robert Patrick',
   'Robert',
