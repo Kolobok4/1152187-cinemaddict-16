@@ -22,7 +22,7 @@ export const generateFilmCard = () => ({
   runtime: `${getRandomInteger(1, 2)}h ${getRandomInteger(0, 59)}m`,
   rating: getRandomInteger(1, 10),
   genre: generateRandomContent(genres),
-  comment: `${getRandomInteger(0, 10)}`,
+  commentCount: `${getRandomInteger(0, 10)}`,
   isFavorite: Boolean(getRandomInteger(0, 1)),
   isWatchList: Boolean(getRandomInteger(0, 1)),
   isAlreadyWatched: Boolean(getRandomInteger(0, 1)),

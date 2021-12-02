@@ -5,6 +5,7 @@ const filterMap = {
     .filter((film) => film.isAlreadyWatched).length,
   favorites: (films) => films
     .filter((film) => film.isFavorite).length,
+
 };
 
 export const generateFilter = (films) => Object.entries(filterMap).map(

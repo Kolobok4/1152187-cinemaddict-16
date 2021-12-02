@@ -34,7 +34,7 @@ const createCommentTemplate = (comments) => {
 
 export const createFilmDetailsPopupTemplate = (film) => {
 
-  const {title, description, rating, poster, age, director, writer, actor, countrie, release} = film;
+  const {title, description, rating, poster, age, director, writer, actor, countrie, release, runtime, genre, commentCount} = film;
   const reliseFilmDate = dayjs(release.date).format('D MMMM YYYY');
 
   return (`<section class="film-details">
@@ -77,7 +77,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">1h 18m</td>
+              <td class="film-details__cell">${runtime}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
@@ -86,9 +86,8 @@ export const createFilmDetailsPopupTemplate = (film) => {
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">Drama</span>
-                <span class="film-details__genre">Film-Noir</span>
-                <span class="film-details__genre">Mystery</span></td>
+                <span class="film-details__genre">${genre}</span>
+</td>
             </tr>
           </table>
           <p class="film-details__film-description">${description}</p>
@@ -100,7 +99,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
     </div>
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span>
+        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentCount}</span>
         </h3>
         <ul class="film-details__comments-list">
           ${createCommentTemplate(film)}
