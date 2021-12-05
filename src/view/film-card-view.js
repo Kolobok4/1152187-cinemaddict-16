@@ -34,10 +34,10 @@ export const createFilmCardTemplate = (film) => {
 
 
 export default class FilmCardView {
-  #element = null;
-  #cards = null;
-  constructor(cards) {
-    this.#cards = cards;
+  #element;
+  #film;
+  constructor(film) {
+    this.#film = film;
   }
 
   get element() {
@@ -49,7 +49,7 @@ export default class FilmCardView {
   }
 
   get template() {
-    return createFilmCardTemplate(this.#cards);
+    return createFilmCardTemplate(this.#film);
   }
 
   removeElement() {

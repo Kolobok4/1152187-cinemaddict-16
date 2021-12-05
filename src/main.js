@@ -51,10 +51,9 @@ render(filmsComponent.element, filmListComponent.element, RenderPosition.BEFOREE
 render(filmListComponent.element, filmListContainerComponent.element, RenderPosition.BEFOREEND);
 
 
-for (let index = 0; index < Math.min(cards.length, FILM_COUNT_PER_STEP); index++) {
-  renderFilm(filmListContainerComponent.element, cards[index]);
+for (let i = 0; i < Math.min(cards.length, FILM_COUNT_PER_STEP); i++) {
+  renderFilm(filmListContainerComponent.element, cards[i]);
 }
-
 
 if (cards.length > FILM_COUNT_PER_STEP) {
   let renderFilmCount = FILM_COUNT_PER_STEP;
@@ -75,6 +74,6 @@ if (cards.length > FILM_COUNT_PER_STEP) {
 
   });
 }
-render(footerStats, new FooterStatsView()._element, RenderPosition.BEFOREEND);
+render(footerStats, new FooterStatsView().element, RenderPosition.BEFOREEND);
 
 

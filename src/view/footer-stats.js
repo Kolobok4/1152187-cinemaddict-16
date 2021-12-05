@@ -1,15 +1,9 @@
 import {createElement} from '../render.js';
 
 
-export const createFooterStatsTemplate = (moviesCount) => {
-  const statisticsTitle = moviesCount !== 0 ? `${moviesCount} movies inside` : '0 movies inside';
-
-  return (
-    `<section class="footer__statistics">
-        <p>${statisticsTitle}</p>
-    </section>`
-  );
-};
+export const createFooterStatsTemplate = () => (
+  '<p> movies inside</p>'
+);
 
 export default class FooterStatsView {
   #element = null;

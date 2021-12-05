@@ -36,7 +36,7 @@ const createCommentTemplate = (comments) => {
 export const createFilmPopupTemplate = (film) => {
 
   const {title, description, rating, poster, age, director, writer, actor, countrie, release, runtime, genre, commentCount} = film;
-  const reliseFilmDate = dayjs(release.date).format('D MMMM YYYY');
+  const reliesFilmDate = dayjs(release.date).format('D MMMM YYYY');
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -74,7 +74,7 @@ export const createFilmPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${reliseFilmDate ? reliseFilmDate : ''}</td>
+              <td class="film-details__cell">${reliesFilmDate ? reliesFilmDate : ''}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>

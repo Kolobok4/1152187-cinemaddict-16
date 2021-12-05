@@ -1,13 +1,11 @@
 import {createElement} from '../render.js';
 
 
-const createNoTaskTemplate  = () => (
-  `
-<h2 class="films-list__title">Loading...</h2>
-`
+const createNoFilmTemplate = () => (
+  '<h2 class="films-list__title">Loading...</h2>'
 );
 
-export default class NoTaskView {
+export default class View {
   #element = null;
 
   get element() {
@@ -19,7 +17,7 @@ export default class NoTaskView {
   }
 
   get template() {
-    return createNoTaskTemplate();
+    return createNoFilmTemplate();
   }
 
   removeElement() {
