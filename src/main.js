@@ -13,7 +13,8 @@ import {FILM_COUNT, FILM_COUNT_PER_STEP} from './const.js';
 import {generateFilmCard} from './mock/film-card.js';
 import {generateFilter} from './mock/filter.js';
 import  './utils/close-popup.js';
-
+const closeKeyNameLong = 'Escape';
+const closeKeyNameShort = 'Esc';
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
@@ -39,6 +40,14 @@ const renderFilm = (containerElement, film) => {
   filmPopupComponent.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
     containerElement.removeChild(filmPopupComponent.element);
     body.classList.remove('hide-overflow');
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    const isEscKey = evt.key === closeKeyNameLong || evt.key === closeKeyNameShort;
+    if (isEscKey) {
+      containerElement.removeChild(filmPopupComponent.element);
+      body.classList.remove('hide-overflow');
+    }
   });
   render(containerElement, filmComponent.element, RenderPosition.BEFOREEND);
 };
