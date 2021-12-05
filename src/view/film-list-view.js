@@ -1,11 +1,14 @@
 import {createElement} from '../render.js';
 
-const createShowMoreButtonTemplate = () => (
-  '<button class="films-list__show-more">Show more</button>'
+const createFilmListTemplate = () => (
+  `<section class="films-list">
+      <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
+    </section>`
 );
 
-export default class ShowMoreButtonView {
+export default class FilmListView {
   #element = null;
+
 
   get element() {
     if (!this.#element) {
@@ -16,7 +19,7 @@ export default class ShowMoreButtonView {
   }
 
   get template() {
-    return createShowMoreButtonTemplate();
+    return createFilmListTemplate();
   }
 
   removeElement() {

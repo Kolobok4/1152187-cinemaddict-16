@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
+import {createElement} from '../render.js';
 
-const createFilmDetailsControlsTemplate = (film) => {
+const createFilmControlsTemplate = (film) => {
   const { isFavorite, isAlreadyWatched, isWatchList } = film;
 
   return (`
@@ -32,10 +33,10 @@ const createCommentTemplate = (comments) => {
 
 };
 
-export const createFilmDetailsPopupTemplate = (film) => {
+export const createFilmPopupTemplate = (film) => {
 
   const {title, description, rating, poster, age, director, writer, actor, countrie, release, runtime, genre, commentCount} = film;
-  const reliseFilmDate = dayjs(release.date).format('D MMMM YYYY');
+  const reliesFilmDate = dayjs(release.date).format('D MMMM YYYY');
 
   return (`<section class="film-details">
   <form class="film-details__inner" action="" method="get">
@@ -73,7 +74,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${reliseFilmDate ? reliseFilmDate : ''}</td>
+              <td class="film-details__cell">${reliesFilmDate ? reliesFilmDate : ''}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
@@ -94,7 +95,7 @@ export const createFilmDetailsPopupTemplate = (film) => {
         </div>
       </div>
       <section class="film-details__controls">
-        ${createFilmDetailsControlsTemplate(film)}
+        ${createFilmControlsTemplate(film)}
       </section>
     </div>
     <div class="film-details__bottom-container">
@@ -137,3 +138,27 @@ export const createFilmDetailsPopupTemplate = (film) => {
       </section>`
   );
 };
+
+export default class PopupFilmView {
+  #element = null;
+  #cards = null;
+  constructor(cards) {
+    this.#cards = cards;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return createFilmPopupTemplate(this.#cards);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}
