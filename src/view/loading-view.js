@@ -1,12 +1,13 @@
 import {createElement} from '../render.js';
 
-const createShowMoreButtonTemplate = () => (
+
+const createNoTaskTemplate  = () => (
   `
-<button class="films-list__show-more">Show more</button>
+<h2 class="films-list__title">Loading...</h2>
 `
 );
 
-export default class ShowMoreButtonView {
+export default class NoTaskView {
   #element = null;
 
   get element() {
@@ -18,7 +19,7 @@ export default class ShowMoreButtonView {
   }
 
   get template() {
-    return createShowMoreButtonTemplate();
+    return createNoTaskTemplate();
   }
 
   removeElement() {

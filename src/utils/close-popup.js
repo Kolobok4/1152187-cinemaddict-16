@@ -1,13 +1,16 @@
-const closeKeyName = 'Escape';
+const closeKeyNameLong = 'Escape';
+const closeKeyNameShort = 'Esc';
 
-
-const removePopup = () => {
+const closePopup = () => {
   const filmPopup = document.querySelector('.film-details');
   filmPopup.remove();
 };
 
 document.addEventListener('keydown', (evt) => {
-  if (evt.key === closeKeyName) {
-    removePopup();
+  const isEscKey = evt.key === closeKeyNameLong || evt.key === closeKeyNameShort;
+  if (isEscKey) {
+    closePopup();
   }
 });
+
+
