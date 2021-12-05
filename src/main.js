@@ -12,6 +12,7 @@ import ShowMoreButtonView from './view/show-more-button-view.js';
 import {closeKeyNameLong, closeKeyNameShort, FILM_COUNT, FILM_COUNT_PER_STEP} from './const.js';
 import {generateFilmCard} from './mock/film-card.js';
 import {generateFilter} from './mock/filter.js';
+import LoadingView from './view/film-card-view.js';
 
 
 const header = document.querySelector('.header');
@@ -57,6 +58,10 @@ render(main, filmsComponent.element, RenderPosition.BEFOREEND);
 render(filmsComponent.element, filmListComponent.element, RenderPosition.BEFOREEND);
 render(filmListComponent.element, filmListContainerComponent.element, RenderPosition.BEFOREEND);
 
+
+if (cards.length === 0) {
+  render(filmListContainerComponent, new LoadingView().element, RenderPosition.BEFOREEND);
+}
 
 for (let i = 0; i < Math.min(cards.length, FILM_COUNT_PER_STEP); i++) {
   renderFilm(filmListContainerComponent.element, cards[i]);

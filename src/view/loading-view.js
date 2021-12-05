@@ -1,11 +1,11 @@
 import {createElement} from '../render.js';
 
 
-const createNoFilmTemplate = () => (
+const createLoadingTemplate = () => (
   '<h2 class="films-list__title">Loading...</h2>'
 );
 
-export default class NoFilmView {
+export default class loadingView {
   #element = null;
 
   get element() {
@@ -17,7 +17,7 @@ export default class NoFilmView {
   }
 
   get template() {
-    return createNoFilmTemplate();
+    return createLoadingTemplate();
   }
 
   removeElement() {
