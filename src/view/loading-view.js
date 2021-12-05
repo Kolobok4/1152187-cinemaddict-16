@@ -5,7 +5,7 @@ const createNoFilmTemplate = () => (
   '<h2 class="films-list__title">Loading...</h2>'
 );
 
-export default class View {
+export default class NoFilmView {
   #element = null;
 
   get element() {
