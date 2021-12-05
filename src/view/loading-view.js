@@ -5,7 +5,7 @@ const createLoadingTemplate = () => (
   '<h2 class="films-list__title">Loading...</h2>'
 );
 
-export default class loadingView {
+export default class FilmDataLoadingView {
   #element = null;
 
   get element() {
