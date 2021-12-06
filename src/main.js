@@ -12,7 +12,7 @@ import ShowMoreButtonView from './view/show-more-button-view.js';
 import {closeKeyNameLong, closeKeyNameShort, FILM_COUNT, FILM_COUNT_PER_STEP} from './const.js';
 import {generateFilmCard} from './mock/film-card.js';
 import {generateFilter} from './mock/filter.js';
-import FilmDataLoadingView from './view/loading-view';
+import NoDataView from './view/no-data-film.js';
 
 
 const header = document.querySelector('.header');
@@ -83,7 +83,7 @@ if (cards.length > FILM_COUNT_PER_STEP) {
 }
 
 if (cards.length === 0) {
-  render(filmListContainerComponent.element, new FilmDataLoadingView().element, RenderPosition.BEFOREEND);
+  render(filmListContainerComponent.element, new NoDataView().element, RenderPosition.BEFOREEND);
 }
 
 render(footerStats, new FooterStatsView().element, RenderPosition.BEFOREEND);

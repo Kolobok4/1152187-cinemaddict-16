@@ -1,11 +1,11 @@
 import {createElement} from '../render.js';
 
 
-const createLoadingTemplate = () => (
-  '<h2 class="films-list__title">Loading...</h2>'
+const createNoDataTemplate = () => (
+  '<h2 class="films-list__title">There are no movies in our database</h2>'
 );
 
-export default class FilmDataLoadingView {
+export default class NoDataView {
   #element = null;
 
   get element() {
@@ -17,7 +17,7 @@ export default class FilmDataLoadingView {
   }
 
   get template() {
-    return createLoadingTemplate();
+    return createNoDataTemplate();
   }
 
   removeElement() {
