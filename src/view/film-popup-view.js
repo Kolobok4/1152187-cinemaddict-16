@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createFilmControlsTemplate = (film) => {
   const { isFavorite, isAlreadyWatched, isWatchList } = film;
@@ -139,26 +139,16 @@ export const createFilmPopupTemplate = (film) => {
   );
 };
 
-export default class PopupFilmView {
-  #element = null;
+export default class PopupFilmView extends AbstractView {
   #cards = null;
+
   constructor(cards) {
+    super();
     this.#cards = cards;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createFilmPopupTemplate(this.#cards);
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }

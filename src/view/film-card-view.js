@@ -1,7 +1,7 @@
 import {setValidityCount} from '../utils/set-validity-count.js';
 import {DESCRIPTION_COUNT} from '../const.js';
 import dayjs from 'dayjs';
-import {createElement} from '../render.js';
+import AbstractView from './abstract-view.js';
 
 const createFilmCardControlsTemplate = (isAlreadyWatched, isFavorite, isWatchList) => (`<div class="film-card__controls">
       <button class="film-card__controls-item ${isWatchList ? 'film-card__controls-item--active' : ''} film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
@@ -33,26 +33,16 @@ export const createFilmCardTemplate = (film) => {
 };
 
 
-export default class FilmCardView {
-  #element;
-  #film;
+export default class FilmCardView extends AbstractView {
+  #film = null;
+
   constructor(film) {
+    super();
     this.#film = film;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return createFilmCardTemplate(this.#film);
   }
 
-  removeElement() {
-    this.#element = null;
-  }
 }
