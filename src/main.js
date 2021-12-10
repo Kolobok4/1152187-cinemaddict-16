@@ -7,7 +7,7 @@ import FilmListView from './view/film-list-view.js';
 import FilmListContainerView from './view/film-list-container-view.js';
 import FilmCardView from './view/film-card-view.js';
 import PopupFilmView from './view/film-popup-view.js';
-import FooterStatsView from './view/footer-stats.js';
+import FooterStatsView from './view/footer-stats-view.js';
 import ShowMoreButtonView from './view/show-more-button-view.js';
 import {closeKeyNameLong, closeKeyNameShort, FILM_COUNT, FILM_COUNT_PER_STEP} from './const.js';
 import {generateFilmCard} from './mock/film-card.js';
@@ -33,13 +33,13 @@ const renderPopup = (film) => {
     document.body.querySelector('.film-details').remove();
   }
 
-  const PopupComponent = new PopupFilmView(film);
+  const popupComponent = new PopupFilmView(film);
 
-  render(document.body, PopupComponent, RenderPosition.BEFOREEND);
+  render(document.body, popupComponent, RenderPosition.BEFOREEND);
   document.body.classList.add('hide-overflow');
 
   const removePopup = () => {
-    remove(PopupComponent);
+    remove(popupComponent);
     document.body.classList.remove('hide-overflow');
   };
 
@@ -51,7 +51,7 @@ const renderPopup = (film) => {
     }
   };
 
-  PopupComponent.setCloseClickHandler(() => {
+  popupComponent.setCloseClickHandler(() => {
     removePopup();
     document.removeEventListener('keydown', onEscKeyDown);
   });
