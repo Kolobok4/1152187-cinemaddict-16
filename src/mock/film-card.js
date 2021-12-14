@@ -1,34 +1,37 @@
-import {
-  titles,  actors,  commentAuthors,  countries,  descriptions,  genres,  images,  writers,  directors,  ageRating,
-  releases, commentContent, emoji, dateComments
-} from './data.js';
-
-import {getRandomInteger} from '../utils/get-random-integer.js';
-import {generateRandomContent} from '../utils/generate-random-content.js';
+import {generateComments} from './comment';
+import {getRandomPositiveFloat} from '../utils/get-random-positive-float';
+import {getRandomElement} from '../utils/get-random-element';
+import {getRandomElementsList} from '../utils/get-random-element-list';
+import {generateReleaseDate} from '../utils/generate-release-date';
+import {generateRuntime} from '../utils/generate-runtime';
+import {getRandomBoolean} from '../utils/get-random-boolean';
+import {getRandomDate} from '../utils/get-random-date';
+import {generateRandomContent} from '../utils/generate-random-content';
+import {Film, FilmsRating, IMAGES, TITLES} from './data';
 
 export const generateFilmCard = () => ({
-  id: getRandomInteger(0, 1000),
-  title: generateRandomContent(titles),
-  originalTitle: generateRandomContent(titles),
-  age: generateRandomContent(ageRating),
-  commentAuthor: generateRandomContent(commentAuthors),
-  countrie: generateRandomContent(countries),
-  description: generateRandomContent(descriptions),
-  poster: generateRandomContent(images),
-  release: generateRandomContent(releases),
-  director: generateRandomContent(directors),
-  actor: generateRandomContent(actors),
-  writer: generateRandomContent(writers),
-  runtime: `${getRandomInteger(1, 2)}h ${getRandomInteger(0, 59)}m`,
-  rating: getRandomInteger(1, 10),
-  genre: generateRandomContent(genres),
-  commentCount: `${getRandomInteger(0, 10)}`,
-  isFavorite: Boolean(getRandomInteger(0, 1)),
-  isWatchList: Boolean(getRandomInteger(0, 1)),
-  isAlreadyWatched: Boolean(getRandomInteger(0, 1)),
-  commentMessage: generateRandomContent(commentContent),
-  emotion: generateRandomContent(emoji),
-  date: generateRandomContent(dateComments),
-  filmCount: getRandomInteger(1, 25),
+  comments: generateComments(),
+  info: {
+    title: generateRandomContent(TITLES),
+    filmRating: getRandomPositiveFloat(FilmsRating.MIN, FilmsRating.MAX, FilmsRating.DECIMALS),
+    poster: generateRandomContent(IMAGES),
+    ageRating: getRandomElement(Film.AGE_RATINGS),
+    director: getRandomElement(Film.DIRECTORS),
+    writers: getRandomElementsList(Film.WRITERS),
+    actors: getRandomElementsList(Film.ACTORS),
+    release: {
+      date: generateReleaseDate(),
+      country: getRandomElement(Film.COUNTRIES),
+    },
+    runtime: generateRuntime(),
+    genre: getRandomElementsList(Film.GENRES),
+    description: getRandomElement(Film.DESCRIPTIONS),
+  },
+  userDetails: {
+    watchList: getRandomBoolean(),
+    alreadyWatched: getRandomBoolean(),
+    watchingDate: getRandomDate(),
+    favorite: getRandomBoolean(),
+  }
 });
 

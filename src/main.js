@@ -102,4 +102,4 @@ if (cards.length === 0) {
   render(filmListContainerComponent, new NoDataView(), RenderPosition.BEFOREEND);
 }
 
-render(footerStats, new FooterStatsView(), RenderPosition.BEFOREEND);
+render(footerStats, new FooterStatsView(cards), RenderPosition.BEFOREEND);
