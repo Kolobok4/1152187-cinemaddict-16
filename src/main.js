@@ -13,16 +13,19 @@ import {closeKeyNameLong, closeKeyNameShort, FILM_COUNT, FILM_COUNT_PER_STEP} fr
 import {generateFilmCard} from './mock/film-card.js';
 import {generateFilter} from './mock/filter.js';
 import NoDataView from './view/no-data-view.js';
+import FilmPresenter from './presenter/film-presenter';
 
 
 const header = document.querySelector('.header');
 const main = document.querySelector('.main');
-const footer = document.querySelector('.footer');
-const footerStats = footer.querySelector('.footer__statistics');
+//const footer = document.querySelector('.footer');
+const footerStats = document.querySelector('.footer__statistics');
 
 const cards = Array.from({ length: FILM_COUNT }, generateFilmCard);
 const filters = generateFilter(cards);
 
+
+/*
 const filmsComponent = new FilmView();
 const filmListComponent = new FilmListView();
 const filmListContainerComponent = new FilmListContainerView();
@@ -70,13 +73,16 @@ const renderFilm = (filmListElement, film) => {
   render(parent, filmComponent, RenderPosition.BEFOREEND);
 };
 
+
 render(header, new UserRatingView(), RenderPosition.BEFOREEND);
 render(main, new SiteMenuView(filters), RenderPosition.BEFOREEND);
 render(main, new SortView(), RenderPosition.BEFOREEND);
 render(main, filmsComponent, RenderPosition.BEFOREEND);
 render(filmsComponent, filmListComponent, RenderPosition.BEFOREEND);
 render(filmListComponent, filmListContainerComponent, RenderPosition.BEFOREEND);
+*/
 
+/*
 for (let i = 0; i < Math.min(cards.length, FILM_COUNT_PER_STEP); i++) {
   renderFilm(filmListContainerComponent, cards[i]);
 }
@@ -103,3 +109,9 @@ if (cards.length === 0) {
 }
 
 render(footerStats, new FooterStatsView(cards), RenderPosition.BEFOREEND);
+*/
+
+const filmPresenter = new FilmPresenter(header, main, footerStats);
+
+
+filmPresenter.init(cards, filters);
