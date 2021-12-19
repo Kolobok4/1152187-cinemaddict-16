@@ -1,4 +1,5 @@
 import {generateComments} from './comment';
+import {nanoid} from 'nanoid';
 import {getRandomPositiveFloat} from '../utils/get-random-positive-float';
 import {getRandomElement} from '../utils/get-random-element';
 import {getRandomElementsList} from '../utils/get-random-element-list';
@@ -10,6 +11,7 @@ import {generateRandomContent} from '../utils/generate-random-content';
 import {Film, FilmsRating, IMAGES, TITLES} from './data';
 
 export const generateFilmCard = () => ({
+  id: nanoid(),
   comments: generateComments(),
   info: {
     title: generateRandomContent(TITLES),

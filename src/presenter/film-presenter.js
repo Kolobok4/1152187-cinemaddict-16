@@ -1,4 +1,4 @@
-import {createElement, remove, render, RenderPosition} from '../utils/render';
+import {remove, render, RenderPosition} from '../utils/render';
 import SortView from '../view/sort-view';
 import FilmView from '../view/film-view';
 import FilmListView from '../view/film-list-view';
@@ -7,11 +7,11 @@ import FilmCardView from '../view/film-card-view';
 import NoDataView from '../view/no-data-view';
 import UserRatingView from '../view/user-rating-view';
 import FooterStatsView from '../view/footer-stats-view';
-import {closeKeyNameLong, closeKeyNameShort, FILM_COUNT_PER_STEP, SortType} from '../const';
+import {FILM_COUNT_PER_STEP} from '../const';
 import PopupFilmView from '../view/film-popup-view';
 import FilmListContainerView from '../view/film-list-container-view';
 import SiteMenuView from '../view/site-menu-view';
-import dayjs from 'dayjs';
+
 
 export default class FilmPresenter {
   #headerContainer = null;
@@ -26,7 +26,6 @@ export default class FilmPresenter {
   #filmComponent = new FilmView();
   #filmListComponent = new FilmListView();
   #filmListContainerComponent = new FilmListContainerView();
-  #filmCardComponent = new FilmCardView();
   #showMoreButtonComponent = new ShowMoreButtonView();
 
   #noDataComponent = new NoDataView();
@@ -43,20 +42,14 @@ export default class FilmPresenter {
     this.#films = [...films];
     this.#filters = filters;
 
-    this.#renderNoData();
     this.#renderUserRating();
     this.#renderMenu();
     this.#renderSort();
-    this.#renderFilmView();
-    this.#renderFilmList();
-    this.#renderFilmsList();
-    this.#renderFooterStats();
+    this.#renderBoard();
   };
 
   #renderNoData = () => {
-    if (this.#films.length === 0) {
-      render(this.#filmListContainerComponent, this.#noDataComponent, RenderPosition.BEFOREEND);
-    }
+    render(this.#filmListContainerComponent, this.#noDataComponent, RenderPosition.BEFOREEND);
   };
 
   #renderUserRating = () => {
@@ -106,7 +99,7 @@ export default class FilmPresenter {
 
     filmCardComponent.setLinkClickHandler(() => {
       showPopup();
-      document.addEventListener('keydown', onEscKeyDown, { once: true });
+      document.addEventListener('keydown', onEscKeyDown);
     });
 
     popupComponent.setCloseClickHandler(() => {
@@ -115,10 +108,6 @@ export default class FilmPresenter {
     });
 
     render(this.#filmListContainerComponent, filmCardComponent, RenderPosition.BEFOREEND);
-  };
-
-  #renderPopup = () => {
-
   };
 
   #renderFilms = (from, to) => {
@@ -134,9 +123,7 @@ export default class FilmPresenter {
     }
   };
 
-
-
-  #showMoreButtonHandler= () => {
+  #handleShowMoreButtonClick = () => {
     this.#renderFilms(this.#renderFilmCount, this.#renderFilmCount + FILM_COUNT_PER_STEP);
     this.#renderFilmCount += FILM_COUNT_PER_STEP;
 
@@ -145,13 +132,22 @@ export default class FilmPresenter {
     }
   }
 
-  #renderShowMoreButton = () => {
+  #renderShowMoreButton  = () => {
     render(this.#filmListContainerComponent, this.#showMoreButtonComponent, RenderPosition.AFTEREND);
-    this.#showMoreButtonComponent.setClickHandler(this.#showMoreButtonHandler);
+    this.#showMoreButtonComponent.setClickHandler(this.#handleShowMoreButtonClick);
   };
 
   #renderFooterStats = () => {
     render(this.#footerStatsContainer, new FooterStatsView(this.#films), RenderPosition.BEFOREEND);
   };
 
+  #renderBoard = () => {
+    if (this.#films.length === 0) {
+      this.#renderNoData();
+    }
+    this.#renderFilmView();
+    this.#renderFilmList();
+    this.#renderFilmsList();
+    this.#renderFooterStats();
+  };
 }
