@@ -1,20 +1,20 @@
 import {getRandomElement} from '../utils/get-random-element';
-import {getRandomInteger} from '../utils/get-random-integer';
-import {Comments} from './data';
+import {authors, comments, EMOTIONS} from './data';
 import {getRandomDate} from '../utils/get-random-date';
 
+let index = 1;
 
-const generateOneComment = () => ({
-  author: getRandomElement(Comments.AUTHORS),
-  date: getRandomDate(),
-  comment: getRandomElement(Comments.MESSAGES),
-  emotion: getRandomElement(Comments.EMOTIONS),
-});
+export const generateComment = () => {
+  const commentData = {
+    id: index.toString(),
+    author: getRandomElement(authors),
+    comment: getRandomElement(comments),
+    date: getRandomDate(),
+    emotion: getRandomElement(EMOTIONS),
+  };
 
-export const generateComments = () => {
-  const array = [];
-  for (let i = 0; i < getRandomInteger(0, Comments.MAX); i++) {
-    array.push(generateOneComment(i));
-  }
-  return array;
+  index++;
+  return commentData;
 };
+
+

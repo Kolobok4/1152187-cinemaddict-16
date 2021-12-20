@@ -1,28 +1,23 @@
 import AbstractView from './abstract-view.js';
 
-const createSiteMenuItemTemplate = (filter) => {
-  const { name, count } = filter;
+const createMainNavigationItemTemplate = ({name, count}) => {
+  const title = name[0].toUpperCase() + name.slice(1);
 
-  return (`
-
-    <a href="#${name}" class="main-navigation__item">${name.substring(0, 1).toUpperCase() + name.substring(1)} <span class="main-navigation__item-count">${count}</span></a>
-
-  `);
+  return `<a href="#${name}" class="main-navigation__item">
+    ${title} <span class="main-navigation__item-count">${count}</span>
+  </a>`;
 };
-const createSiteMenuTemplate = (filterItems) => {
-  const filterItemsTemplate = filterItems
-    .map((filter, index) => createSiteMenuItemTemplate(filter, index === 0))
-    .join('');
 
-  return (
-    `<nav class="main-navigation">
-      <div class="main-navigation__items">
-      <a href="#all" class="main-navigation__item">All movies</a>
-        ${filterItemsTemplate}
-      </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
-    </nav>`
-  );
+const createMainNavigationTemplate = (filters) => {
+  const navigationItems = filters.map(createMainNavigationItemTemplate).join('\n');
+
+  return `<nav class="main-navigation">
+    <div class="main-navigation__items">
+      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
+      ${navigationItems}
+    </div>
+    <a href="#stats" class="main-navigation__additional">Stats</a>
+  </nav>`;
 };
 
 export default class SiteMenuView extends AbstractView{
@@ -34,6 +29,6 @@ export default class SiteMenuView extends AbstractView{
   }
 
   get template() {
-    return createSiteMenuTemplate(this.#filters);
+    return createMainNavigationTemplate(this.#filters);
   }
 }

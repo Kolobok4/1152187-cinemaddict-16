@@ -22,18 +22,18 @@ export const Film = {
 };
 
 export const IMAGES = [
-  'made-for-each-other.png',
-  'popeye-meets-sinbad.png',
-  'sagebrush-trail.jpg',
-  'santa-claus-conquers-the-martians.jpg',
-  'the-dance-of-life.jpg',
-  'the-great-flamarion.jpg',
-  'the-man-with-the-golden-arm.jpg',
+  './images/posters/made-for-each-other.png',
+  './images/posters/popeye-meets-sinbad.png',
+  './images/posters/sagebrush-trail.jpg',
+  './images/posters/santa-claus-conquers-the-martians.jpg',
+  './images/posters/the-dance-of-life.jpg',
+  './images/posters/the-great-flamarion.jpg',
+  './images/posters/the-man-with-the-golden-arm.jpg'
 ];
 
 export const FilmsRating = {
   MIN: 0,
-  MAX: 10,
+  MAX: 9,
   DECIMALS: 1,
 };
 
@@ -48,16 +48,18 @@ export const Runtime = {
   MINUTES_IN_HOUR: 60,
 };
 
-export const Comments = {
-  AUTHORS: ['Arnold Schwarzenegger', 'Robert Patrick', 'Robert', 'Michael J. Fox', 'Sergio Leone',],
-  MESSAGES: [
-    'A team of explorers travel through a wormhole in space in an attempt to ensure humanity survival.',
-    'In the slums of Rio, two kids paths diverge as one struggles to become a photographer and the other a kingpin',
-    'When an open-minded Jewish waiter and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.',
-    'Lion prince Simba',
-    'A Phoenix secretary embezzles $40,000 from her employer client',
-  ],
-  EMOTIONS: ['smile', 'sleeping', 'puke', 'angry'],
-  MAX: 5,
-};
+export const authors = [
+  'Arnold Schwarzenegger', 'Robert Patrick', 'Robert', 'Michael J. Fox', 'Sergio Leone',
+];
+
+export const comments = [
+  'Interesting setting and a good cast',
+  'Booooooooooring',
+  'Very very old. Meh',
+  'Almost two hours? Seriously?'
+];
+
+
+export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
+
 

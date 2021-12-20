@@ -1,18 +1,17 @@
 import AbstractView from './abstract-view.js';
 
 
-export const createFooterStatsTemplate = (films) => `<p>${films.length} movies inside </p>`;
+export const createFooterStatsTemplate = (count) => `<p>${count} movies inside </p>`;
 
 export default class FooterStatsView extends AbstractView {
-  #films = null;
+  #count = null;
 
-  constructor(films) {
+  constructor(count) {
     super();
-    this.#films = films;
+    this.#count = count;
   }
 
   get template() {
-    return createFooterStatsTemplate(this.#films);
+    return createFooterStatsTemplate(this.#count);
   }
-
 }
