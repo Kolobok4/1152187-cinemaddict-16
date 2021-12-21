@@ -8,38 +8,33 @@ import {getRandomDate} from '../utils/get-random-date';
 import {generateRandomContent} from '../utils/generate-random-content';
 import {Film, FilmsRating, IMAGES, TITLES} from './data';
 import {generateCommentsId} from '../utils/get-comments-id';
+import {nanoid} from 'nanoid';
 
-let index = 1;
 
-export const generateFilmCard = () => {
-  const filmData = {
-    id: index.toString(),
-    info: {
-      title: generateRandomContent(TITLES),
-      filmRating: getRandomPositiveFloat(FilmsRating.MIN, FilmsRating.MAX, FilmsRating.DECIMALS),
-      poster: generateRandomContent(IMAGES),
-      ageRating: getRandomElement(Film.AGE_RATINGS),
-      director: getRandomElement(Film.DIRECTORS),
-      writers: getRandomElementsList(Film.WRITERS),
-      actors: getRandomElementsList(Film.ACTORS),
-      release: {
-        date: generateReleaseDate(),
-        country: getRandomElement(Film.COUNTRIES),
-      },
-      runtime: generateRuntime(),
-      genre: getRandomElementsList(Film.GENRES),
-      description: getRandomElement(Film.DESCRIPTIONS),
+export const generateFilmCard = () => ({
+  id: nanoid(),
+  info: {
+    title: generateRandomContent(TITLES),
+    filmRating: getRandomPositiveFloat(FilmsRating.MIN, FilmsRating.MAX, FilmsRating.DECIMALS),
+    poster: generateRandomContent(IMAGES),
+    ageRating: getRandomElement(Film.AGE_RATINGS),
+    director: getRandomElement(Film.DIRECTORS),
+    writers: getRandomElementsList(Film.WRITERS),
+    actors: getRandomElementsList(Film.ACTORS),
+    release: {
+      date: generateReleaseDate(),
+      country: getRandomElement(Film.COUNTRIES),
     },
-    userDetails: {
-      watchlist: getRandomBoolean(),
-      alreadyWatched: getRandomBoolean(),
-      watchingDate: getRandomDate(),
-      favorite: getRandomBoolean(),
-    },
-    comments: generateCommentsId(),
-  };
-
-  index++;
-  return filmData;
-};
+    runtime: generateRuntime(),
+    genre: getRandomElementsList(Film.GENRES),
+    description: getRandomElement(Film.DESCRIPTIONS),
+  },
+  userDetails: {
+    watchlist: getRandomBoolean(),
+    alreadyWatched: getRandomBoolean(),
+    watchingDate: getRandomDate(),
+    favorite: getRandomBoolean(),
+  },
+  comments: generateCommentsId(),
+});
 
