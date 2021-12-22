@@ -1,4 +1,5 @@
-export const titles = [
+
+export const TITLES = [
   'The Lion King',
   'The Holiday',
   'ALF',
@@ -6,107 +7,59 @@ export const titles = [
   'Friends',
 ];
 
-export const descriptions = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
-  'Fusce tristique felis at fermentum pharetra.',
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.',
+
+export const Film = {
+  AGE_RATINGS: ['0+', '12+', '16+', '18+', '21+'],
+  DIRECTORS: ['Steven Spielberg', 'Frank Darabont', 'Bong Joon Ho', 'Irvin Kershner', 'Lana Wachowski'],
+  WRITERS: ['Tom Hanks', 'Michael Clarke Duncan', 'David Morse', 'Bonnie Hunt','Kevin Spacey', 'Andrew Kevin Walker','Takashi Shimura', 'Keiko Tsushima'],
+  ACTORS: ['Miles Teller', 'J.K. Simmons', 'Melissa Benoist', 'Paul Reiser', 'Anthony Perkins', 'Janet Leigh', 'Vera Miles', 'John Gavin'],
+  COUNTRIES: ['United States','India', 'Canada', 'United Kingdom', 'Brazil'],
+  GENRES: ['Action', 'Adventure', 'Fantasy', 'History', 'Dramma', 'Sci-Fi'],
+  DESCRIPTIONS:
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.'.split(
+      '.',
+    ),
+};
+
+export const IMAGES = [
+  './images/posters/made-for-each-other.png',
+  './images/posters/popeye-meets-sinbad.png',
+  './images/posters/sagebrush-trail.jpg',
+  './images/posters/santa-claus-conquers-the-martians.jpg',
+  './images/posters/the-dance-of-life.jpg',
+  './images/posters/the-great-flamarion.jpg',
+  './images/posters/the-man-with-the-golden-arm.jpg'
 ];
 
-export const images = [
-  'made-for-each-other.png',
-  'popeye-meets-sinbad.png',
-  'sagebrush-trail.jpg',
-  'santa-claus-conquers-the-martians.jpg',
-  'the-dance-of-life.jpg',
-  'the-great-flamarion.jpg',
-  'the-man-with-the-golden-arm.jpg',
+export const FilmsRating = {
+  MIN: 0,
+  MAX: 9,
+  DECIMALS: 1,
+};
+
+export const ReleaseYear = {
+  MIN: 1895,
+  MAX: 2021,
+};
+
+export const Runtime = {
+  MIN: 50,
+  MAX: 180,
+  MINUTES_IN_HOUR: 60,
+};
+
+export const AUTHORS = [
+  'Arnold Schwarzenegger', 'Robert Patrick', 'Robert', 'Michael J. Fox', 'Sergio Leone',
 ];
 
-export const genres = [
-  ['Action', 'Adventure', 'Fantasy'],
-  ['History', 'Action', 'Dramma'],
-  ['Biography', 'Crime', 'Drama'],
-  ['Adventure', 'Drama', 'Sci-Fi'],
-  ['Crime', 'Drama', 'Fantasy'],
+export const COMMENTS = [
+  'Interesting setting and a good cast',
+  'Booooooooooring',
+  'Very very old. Meh',
+  'Almost two hours? Seriously?'
 ];
 
-export const directors = [
-  'Steven Spielberg',
-  'Frank Darabont',
-  'Bong Joon Ho',
-  'Irvin Kershner',
-  'Lana Wachowski, Lilly Wachowski',
-];
 
-export const writers = [
-  ['Louise Fletcher', 'Michael Berryman'],
-  ['Matthew McConaughey', 'Anne Hathaway'],
-  ['Tom Hanks', 'Michael Clarke Duncan', 'David Morse', 'Bonnie Hunt'],
-  ['Kevin Spacey', 'Andrew Kevin Walker'],
-  ['Takashi Shimura', 'Keiko Tsushima'],
-];
-
-export const actors = [
-  ['Miles Teller', 'J.K. Simmons', 'Melissa Benoist', 'Paul Reiser'],
-  ['Leonardo DiCaprio', 'Matt Damon', 'Jack Nicholson', 'Mark Wahlberg'],
-  ['Matthew Broderick', 'Jeremy Irons', 'James Earl Jones', 'Whoopi Goldberg'],
-  ['Anthony Perkins', 'Janet Leigh', 'Vera Miles', 'John Gavin'],
-  ['Keanu Reeves', 'Laurence Fishburne', 'Carrie-Anne Moss', 'Hugo Weaving'],
-];
-
-export const releases = [
-  '1929-05-11T00:00:00.000Z',
-  '1933-06-14T00:00:00.000Z',
-  '1955-03-21T00:00:00.000Z',
-  '1964-07-05T00:00:00.000Z',
-  '1936-10-01T00:00:00.000Z',
-];
-
-export const countries = [
-  'United States',
-  'India',
-  'Canada',
-  'United Kingdom',
-  'Brazil',
-];
-
-export const emoji = [
-  'smile',
-  'sleeping',
-  'puke',
-  'angry',
-];
-export const dateComments = [
-  '2015-01-11T16:11:48.554Z',
-  '2016-04-11T16:4:37.554Z',
-  '2019-05-11T16:19:21.554Z',
-  '2013-02-11T16:21:32.554Z',
-];
-
-export const commentContent = [
-  'A team of explorers travel through a wormhole in space in an attempt to ensure humanity survival.',
-  'In the slums of Rio, two kids paths diverge as one struggles to become a photographer and the other a kingpin',
-  'When an open-minded Jewish waiter and his son become victims of the Holocaust, he uses a perfect mixture of will, humor, and imagination to protect his son from the dangers around their camp.',
-  'Lion prince Simba',
-  'A Phoenix secretary embezzles $40,000 from her employer client',
-];
-
-export const ageRating = [
-  '16+',
-  '18+',
-  '3+',
-  '21+',
-  '0+',
-];
-
-export const commentAuthors = [
-  'Arnold Schwarzenegger',
-  'Robert Patrick',
-  'Robert',
-  'Michael J. Fox',
-  'Sergio Leone',
-];
+export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 
 
