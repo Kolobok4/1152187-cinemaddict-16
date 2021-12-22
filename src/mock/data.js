@@ -48,11 +48,11 @@ export const Runtime = {
   MINUTES_IN_HOUR: 60,
 };
 
-export const authors = [
+export const AUTHORS = [
   'Arnold Schwarzenegger', 'Robert Patrick', 'Robert', 'Michael J. Fox', 'Sergio Leone',
 ];
 
-export const comments = [
+export const COMMENTS = [
   'Interesting setting and a good cast',
   'Booooooooooring',
   'Very very old. Meh',
