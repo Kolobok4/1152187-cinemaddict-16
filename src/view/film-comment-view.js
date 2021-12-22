@@ -16,7 +16,7 @@ const createCommentTemplate = ({author, comment, date, emotion}) => (
 </li>`);
 
 export default class FilmCommentView extends AbstractView {
-  #comment;
+  #comment = null;
 
   constructor(comment) {
     super();

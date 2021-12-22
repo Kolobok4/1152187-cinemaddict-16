@@ -112,7 +112,7 @@ const createFilmPopupTemplate = ({info, userDetails, comments}) => {
 };
 
 export default class PopupFilmView extends AbstractView {
-  #film;
+  #film = null;
 
   constructor(film) {
     super();
