@@ -3,12 +3,13 @@ import SortView from '../view/sort-view';
 import FilmView from '../view/film-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmCardView from '../view/film-card-view';
-import { EXTRA_FILM_COUNT, FILM_COUNT_PER_STEP} from '../const';
+import {closeKeyNameLong, closeKeyNameShort, EXTRA_FILM_COUNT, FILM_COUNT_PER_STEP} from '../const';
 import PopupFilmView from '../view/film-popup-view';
 import FilmListContainerView from '../view/film-list-container-view';
 import FilmsListView from '../view/film-list-view';
 import FilmCommentView from '../view/film-comment-view';
 import {updateItem} from '../utils/update-item';
+import {getSortedFilms} from '../utils/get-films-count';
 
 const bodyElement = document.body;
 
@@ -31,6 +32,9 @@ export default class FilmsPresenter {
   #renderedCount = FILM_COUNT_PER_STEP;
   #renderedFilms = new Map;
 
+  #sortType = 'default';
+  #origFilms = [];
+
   constructor(boardContainer) {
     this.#boardContainer = boardContainer;
   }
@@ -43,8 +47,28 @@ export default class FilmsPresenter {
     this.#renderBoard();
   }
 
+  #sort = (newSort) => {
+    if (newSort === 'default') {
+      this.#films = [...this.#origFilms];
+    } else {
+      this.#films = getSortedFilms(this.#films, newSort);
+    }
+
+    this.#sortType = newSort;
+  }
+
+  #handleSortTypeChange = (newSort) => {
+    if (newSort === this.#sortType) {
+      return;
+    }
+
+    this.#sort(newSort);
+    this.#updateFullList();
+  }
+
   #renderSort = () => {
     render(this.#boardComponent, this.#sortComponent, RenderPosition.BEFOREBEGIN);
+    this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   }
 
   #renderComments = (film) => {
@@ -78,7 +102,7 @@ export default class FilmsPresenter {
   }
 
   #onEscKeyDown = (evt) => {
-    if (evt.key === 'Esc' || evt.key === 'Escape') {
+    if (evt.key === closeKeyNameShort || evt.key === closeKeyNameLong) {
       evt.preventDefault();
       this.#closeDetails();
     }
@@ -193,6 +217,17 @@ export default class FilmsPresenter {
     if (this.#films.length > FILM_COUNT_PER_STEP) {
       this.#renderMoreButton();
     }
+  }
+
+  #updateFullList = () => {
+    this.#renderedFilms.forEach((card) => remove(card));
+    this.#renderedFilms.clear();
+    this.#renderedCount = FILM_COUNT_PER_STEP;
+
+    remove(this.#moreButtonComponent);
+    remove(this.#filmsListComponent);
+
+    this.#renderFullList();
   }
 
   #renderTopFilms = () => {
