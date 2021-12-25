@@ -7,4 +7,4 @@ export const closeKeyNameLong = 'Escape';
 export const closeKeyNameShort = 'Esc';
 export const EXTRA_FILM_COUNT = 2;
 export const COMMENTS_COUNT = 80;
-
+export const SORT_TYPE = ['default', 'date', 'rating'];
