@@ -33,7 +33,7 @@ export default class FilmsPresenter {
   #renderedFilms = new Map;
 
   #sortType = 'default';
-  #origFilms = [];
+  #sourcedFilms = [];
 
   constructor(boardContainer) {
     this.#boardContainer = boardContainer;
@@ -42,6 +42,7 @@ export default class FilmsPresenter {
   init = (films, comments) => {
     this.#films = [...films];
     this.#comments = [...comments];
+    this.#sourcedFilms = [...films];
 
     render(this.#boardContainer, this.#boardComponent);
     this.#renderBoard();
@@ -49,7 +50,7 @@ export default class FilmsPresenter {
 
   #sort = (newSort) => {
     if (newSort === 'default') {
-      this.#films = [...this.#origFilms];
+      this.#films = [...this.#sourcedFilms];
     } else {
       this.#films = getSortedFilms(this.#films, newSort);
     }
