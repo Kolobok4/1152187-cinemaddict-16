@@ -35,3 +35,4 @@ export default class SmartView extends AbstractView {
     throw new Error('Abstract method not implemented: restoreHandlers');
   }
 }
+
