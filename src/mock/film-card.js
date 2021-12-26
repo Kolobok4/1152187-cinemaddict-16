@@ -5,7 +5,6 @@ import {generateReleaseDate} from '../utils/generate-release-date';
 import {generateRuntime} from '../utils/generate-runtime';
 import {getRandomBoolean} from '../utils/get-random-boolean';
 import {getRandomDate} from '../utils/get-random-date';
-import {generateRandomContent} from '../utils/generate-random-content';
 import {Film, FilmsRating, IMAGES, TITLES} from './data';
 import {generateCommentsId} from '../utils/get-comments-id';
 import {nanoid} from 'nanoid';
@@ -14,9 +13,9 @@ import {nanoid} from 'nanoid';
 export const generateFilmCard = () => ({
   id: nanoid(),
   info: {
-    title: generateRandomContent(TITLES),
+    title: getRandomElement(TITLES),
     filmRating: getRandomPositiveFloat(FilmsRating.MIN, FilmsRating.MAX, FilmsRating.DECIMALS),
-    poster: generateRandomContent(IMAGES),
+    poster: getRandomElement(IMAGES),
     ageRating: getRandomElement(Film.AGE_RATINGS),
     director: getRandomElement(Film.DIRECTORS),
     writers: getRandomElementsList(Film.WRITERS),

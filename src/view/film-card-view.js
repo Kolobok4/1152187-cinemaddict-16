@@ -3,7 +3,7 @@ import {
   DESCRIPTION_COUNT_MAX
 } from '../const.js';
 import dayjs from 'dayjs';
-import AbstractView from './abstract-view.js';
+import SmartView from './smart-view';
 
 const CONTROL_ACTIVE_CLASS = 'film-card__controls-item--active';
 
@@ -35,28 +35,23 @@ const createFilmCardControlsTemplate = (film) => {
 };
 
 
-export default class FilmCardView extends AbstractView {
-  #film = null;
-
+export default class FilmCardView extends  SmartView {
   constructor(film) {
     super();
-    this.#film = film;
+    this._data = film;
   }
 
   get template() {
-    return createFilmCardControlsTemplate(this.#film);
+    return createFilmCardControlsTemplate(this._data);
   }
 
   get filmData() {
-    return this.#film;
+    return this._data;
   }
 
-  set filmData(filmData) {
-    this.#film = filmData;
-  }
-
-  updateControl = (controlType) => {
-    this.element.querySelector(`[name = ${controlType}]`).classList.toggle(CONTROL_ACTIVE_CLASS);
+  restoreHandlers = () => {
+    this.setOpenDetailsHandler(this._callback.openDetailsClick);
+    this.setControlClickHandler(this._callback.controlClick);
   }
 
   setOpenDetailsHandler = (callback) => {
@@ -78,7 +73,6 @@ export default class FilmCardView extends AbstractView {
 
   #controlClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.controlClick(this.filmData, evt.target.getAttribute('name'));
+    this._callback.controlClick(this._data, evt.target.getAttribute('name'));
   }
-
 }
