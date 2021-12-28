@@ -7,7 +7,6 @@ import {closeKeyNameLong, closeKeyNameShort, EXTRA_FILM_COUNT, FILM_COUNT_PER_ST
 import PopupFilmView from '../view/film-popup-view';
 import FilmListContainerView from '../view/film-list-container-view';
 import FilmsListView from '../view/film-list-view';
-import FilmCommentView from '../view/film-comment-view';
 import {updateItem} from '../utils/update-item';
 import {getSortedFilms} from '../utils/get-films-count';
 
@@ -72,25 +71,16 @@ export default class FilmsPresenter {
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
   }
 
-  #renderComments = (film) => {
-    const commentsNode = this.#detailsComponent.element.querySelector('.film-details__comments-list');
-    this.#comments.forEach((comment) => {
-      if (film.comments.includes(comment.id)) {
-        render(commentsNode, new FilmCommentView(comment));
-      }
-    });
-  }
-
   #openDetails = (film) => {
     if (this.#detailsComponent !== null) {
       this.#closeDetails();
     }
 
-    this.#detailsComponent = new PopupFilmView(film);
+    const filmComments = this.#comments.filter((comment) => film.comments.includes(comment.id));
+    this.#detailsComponent = new PopupFilmView(film, filmComments);
 
     bodyElement.classList.add('hide-overflow');
     render(bodyElement, this.#detailsComponent);
-    this.#renderComments(film);
 
     this.#detailsComponent.setCloseDetailsHandler(this.#closeDetails);
     this.#detailsComponent.setControlClickHandler(this.#handleControlClick);
@@ -109,18 +99,16 @@ export default class FilmsPresenter {
     }
   }
 
-  #handleFilmChange = (updatedFilm, controlType) => {
+  #handleFilmChange = (updatedFilm) => {
     this.#films = updateItem(this.#films, updatedFilm);
     const filmCard = this.#renderedFilms.get(updatedFilm.id);
 
     if (filmCard) {
-      filmCard.filmData = updatedFilm;
-      filmCard.updateControl(controlType);
+      filmCard.updateData(updatedFilm);
     }
 
     if (this.#detailsComponent !== null && this.#detailsComponent.filmData.id === updatedFilm.id) {
-      this.#detailsComponent.filmData = updatedFilm;
-      this.#detailsComponent.updateControl(controlType);
+      this.#detailsComponent.updateData(updatedFilm);
     }
 
     this.#updateExtraLists();
@@ -145,7 +133,7 @@ export default class FilmsPresenter {
         userDetails: {
           ...film.userDetails,
           alreadyWatched: !film.userDetails.alreadyWatched,
-          watchingDate: new Date()
+          watchingDate: !film.userDetails.alreadyWatched ? new Date() : null
         }
       };
     }
@@ -160,7 +148,7 @@ export default class FilmsPresenter {
       };
     }
 
-    this.#handleFilmChange(updatedFilm, controlType);
+    this.#handleFilmChange(updatedFilm);
   }
 
   #renderFilm = (container, film) => {

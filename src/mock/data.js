@@ -49,7 +49,11 @@ export const Runtime = {
 };
 
 export const AUTHORS = [
-  'Arnold Schwarzenegger', 'Robert Patrick', 'Robert', 'Michael J. Fox', 'Sergio Leone',
+  'Arnold Schwarzenegger',
+  'Robert Patrick',
+  'Robert',
+  'Michael J. Fox',
+  'Sergio Leone',
 ];
 
 export const COMMENTS = [
