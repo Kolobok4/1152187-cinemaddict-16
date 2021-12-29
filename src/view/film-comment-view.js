@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view';
-import {getTimeFromNow} from '../utils/get-random-date';
+import {getTimeFromNow} from '../utils/get-time-from-now';
 
 const createCommentTemplate = ({author, comment, date, emotion}) => (
   `<li class="film-details__comment">

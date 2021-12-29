@@ -1,14 +1,14 @@
 import {getRandomElement} from '../utils/get-random-element';
 import {AUTHORS, COMMENTS, EMOTIONS} from './data';
-import {getRandomDate} from '../utils/get-random-date';
 import {nanoid} from 'nanoid';
+import {getRandomDate} from '../utils/get-random-date';
 
 
 export const generateComment = () => ({
   id: nanoid(),
   author: getRandomElement(AUTHORS),
   comment: getRandomElement(COMMENTS),
-  date: getRandomDate(),
+  date: getRandomDate(2, 1),
   emotion: getRandomElement(EMOTIONS),
 });
 

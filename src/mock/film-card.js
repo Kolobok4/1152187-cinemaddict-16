@@ -1,13 +1,12 @@
 import {getRandomPositiveFloat} from '../utils/get-random-positive-float';
 import {getRandomElement} from '../utils/get-random-element';
 import {getRandomElementsList} from '../utils/get-random-element-list';
-import {generateReleaseDate} from '../utils/generate-release-date';
-import {generateRuntime} from '../utils/generate-runtime';
 import {getRandomBoolean} from '../utils/get-random-boolean';
-import {getRandomDate} from '../utils/get-random-date';
 import {Film, FilmsRating, IMAGES, TITLES} from './data';
 import {generateCommentsId} from '../utils/get-comments-id';
 import {nanoid} from 'nanoid';
+import {getRandomInteger} from '../utils/get-random-integer';
+import {getRandomDate} from '../utils/get-random-date';
 
 
 export const generateFilmCard = () => ({
@@ -21,17 +20,17 @@ export const generateFilmCard = () => ({
     writers: getRandomElementsList(Film.WRITERS),
     actors: getRandomElementsList(Film.ACTORS),
     release: {
-      date: generateReleaseDate(),
+      date: getRandomDate(30, 1),
       country: getRandomElement(Film.COUNTRIES),
     },
-    runtime: generateRuntime(),
+    runtime: getRandomInteger(30, 180),
     genre: getRandomElementsList(Film.GENRES),
     description: getRandomElement(Film.DESCRIPTIONS),
   },
   userDetails: {
     watchlist: getRandomBoolean(),
     alreadyWatched: getRandomBoolean(),
-    watchingDate: getRandomDate(),
+    watchingDate: getRandomDate(5, 1),
     favorite: getRandomBoolean(),
   },
   comments: generateCommentsId(),

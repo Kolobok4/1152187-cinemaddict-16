@@ -1,6 +1,8 @@
 import {EMOTIONS} from '../mock/data';
 import FilmCommentView from './film-comment-view';
 import SmartView from './smart-view';
+import {formatDuration} from '../utils/format-duration';
+import {formatDate} from '../utils/format-date';
 
 const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 
@@ -64,11 +66,11 @@ const createFilmDetailsTemplate = ({info, userDetails, comments, activeEmoji, co
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${release.date}</td>
+                <td class="film-details__cell">${formatDate(release.date)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${runtime}</td>
+                <td class="film-details__cell">${formatDuration(runtime)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

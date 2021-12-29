@@ -1,28 +1,33 @@
 import {
   DESCRIPTION_COUNT,
-  DESCRIPTION_COUNT_MAX
 } from '../const.js';
-import dayjs from 'dayjs';
 import SmartView from './smart-view';
+import {formatDuration} from '../utils/format-duration';
+import {getYear} from '../utils/get-year';
 
 const CONTROL_ACTIVE_CLASS = 'film-card__controls-item--active';
 
-const createFilmCardControlsTemplate = (film) => {
-  const { comments, info, userDetails} = film;
-  const description = info.description.length > DESCRIPTION_COUNT_MAX ? info.description.slice(0, DESCRIPTION_COUNT).concat('...') : info.description;
-  const date = dayjs(info.release.date).format('YYYY');
+const createFilmCardControlsTemplate = ({info, userDetails, comments}) => {
+  const {title, filmRating, release, runtime, genre, poster, description} = info;
+
+  const getDescriptionLength = () => {
+    if (description.length > DESCRIPTION_COUNT) {
+      return `${description.slice(0, DESCRIPTION_COUNT)}...`;
+    }
+    return description;
+  };
 
   return `<article class="film-card">
   <a class="film-card__link">
-    <h3 class="film-card__title">${info.title}</h3>
-    <p class="film-card__rating">${info.filmRating}</p>
+    <h3 class="film-card__title">${title}</h3>
+    <p class="film-card__rating">${filmRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${date}</span>
-      <span class="film-card__duration">${info.runtime}</span>
-      <span class="film-card__genre">${info.genre[0]}</span>
+      <span class="film-card__year">${getYear(release.date)}</span>
+      <span class="film-card__duration">${formatDuration(runtime)}</span>
+      <span class="film-card__genre">${genre[0]}</span>
     </p>
-    <img src="${info.poster}" alt="" class="film-card__poster">
-    <p class="film-card__description">${description}</p>
+    <img src="${poster}" alt="" class="film-card__poster">
+    <p class="film-card__description">${getDescriptionLength()}</p>
     <span class="film-card__comments">${comments.length} comments</span>
   </a>
   <div class="film-card__controls">
