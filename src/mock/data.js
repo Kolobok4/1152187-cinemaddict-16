@@ -37,17 +37,6 @@ export const FilmsRating = {
   DECIMALS: 1,
 };
 
-export const ReleaseYear = {
-  MIN: 1895,
-  MAX: 2021,
-};
-
-export const Runtime = {
-  MIN: 50,
-  MAX: 180,
-  MINUTES_IN_HOUR: 60,
-};
-
 export const AUTHORS = [
   'Arnold Schwarzenegger',
   'Robert Patrick',

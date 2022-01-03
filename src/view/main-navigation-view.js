@@ -20,7 +20,7 @@ const createMainNavigationTemplate = (filters) => {
   </nav>`;
 };
 
-export default class SiteMenuView extends AbstractView{
+export default class MainNavigationView extends AbstractView{
   #filters = null;
 
   constructor(filters) {

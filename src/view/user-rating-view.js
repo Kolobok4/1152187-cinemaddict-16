@@ -1,5 +1,6 @@
-import AbstractView from './abstract-view.js';
-
+import SmartView from './smart-view';
+import {filter} from '../utils/filters';
+import {UpdateType} from '../const';
 
 const createUserRatingTemplate = (count) => {
   const getRank = () => {
@@ -22,16 +23,28 @@ const createUserRatingTemplate = (count) => {
   </section>`;
 };
 
-export default class UserRatingView extends AbstractView {
+export default class UserRatingView extends SmartView {
   #count = null;
+  #filmsModel = null;
 
-  constructor(count = 0) {
+  constructor(filmsModel) {
     super();
-    this.#count = count;
+    this.#filmsModel = filmsModel;
+    this.#count = filter.history(this.#filmsModel.films).length;
+    this.#filmsModel.addObserver(this.#handleModelEvent);
   }
 
   get template() {
     return createUserRatingTemplate(this.#count);
   }
+
+  #handleModelEvent = (updateType) => {
+    if (updateType === UpdateType.MINOR) {
+      this.#count = filter.history(this.#filmsModel.films).length;
+      this.updateData({});
+    }
+  }
+
+  restoreHandlers = () => {}
 }
 
