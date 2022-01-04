@@ -6,6 +6,7 @@ export const closeKeyNameLong = 'Escape';
 export const closeKeyNameShort = 'Esc';
 export const EXTRA_FILM_COUNT = 2;
 export const COMMENTS_COUNT = 80;
+export const BAR_HEIGHT = 50;
 
 export const SortType = {
   DEFAULT: 'default',
@@ -38,3 +39,17 @@ export const NoTasksTextType = {
   [FilterType.HISTORY]: 'There are no watched movies now',
   [FilterType.FAVORITES]: 'There are no favorite movies now'
 };
+
+export const ScreenType = {
+  FILMS: 'films',
+  STATS: 'stats'
+};
+
+export const StatsFilterType = {
+  ALL: {type: 'all-time', name: 'All time'},
+  TODAY: {type: 'today', name: 'Today'},
+  WEEK: {type: 'week', name: 'Week'},
+  MONTH: {type: 'month', name: 'Month'},
+  YEAR: {type: 'year', name: 'Year'}
+};
+

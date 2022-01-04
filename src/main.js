@@ -1,14 +1,16 @@
-import {COMMENTS_COUNT, FILM_COUNT} from './const.js';
+import {COMMENTS_COUNT, FILM_COUNT, ScreenType} from './const.js';
 import {generateFilmCard} from './mock/film-card.js';
 import {generateComment} from './mock/comment';
 import {render} from './utils/render';
 import FilmsPresenter from './presenter/film-presenter';
 import UserRatingView from './view/user-rating-view';
 import FooterStatsView from './view/footer-stats-view';
-import FilterPresenter from './presenter/filter-presenter';
+import NavigationPresenter from './presenter/navigation-presenter';
 import FilterModel from './models/filter-model';
 import CommentsModel from './models/comments-model';
 import FilmsModel from './models/films-model';
+import StatsPresenter from './presenter/stats-presenter';
+
 
 const films = Array.from({length: FILM_COUNT}, generateFilmCard);
 const comments = Array.from({length: COMMENTS_COUNT}, generateComment);
@@ -26,11 +28,23 @@ const main = document.querySelector('.main');
 const footerStats = document.querySelector('.footer__statistics');
 
 const filmsPresenter = new FilmsPresenter(main, filmsModel, commentsModel, filterModel);
-const filtersPresenter = new FilterPresenter(main, filterModel, filmsModel);
+const statsPresenter = new StatsPresenter(main, filmsModel);
 
+const handleNavigationClick = (screenType) => {
+  if (screenType === ScreenType.STATS) {
+    filmsPresenter.destroy();
+    statsPresenter.init();
+    return;
+  }
+
+  statsPresenter.destroy();
+  filmsPresenter.init();
+};
+
+const navigationPresenter = new NavigationPresenter(main, filterModel, filmsModel, handleNavigationClick);
 
 render(header, new UserRatingView(filmsModel));
-filtersPresenter.init();
+navigationPresenter.init();
 filmsPresenter.init();
 render(footerStats, new FooterStatsView(films.length));
 
