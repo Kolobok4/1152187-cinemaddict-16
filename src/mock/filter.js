@@ -6,7 +6,7 @@ const filmToFilterMap = {
   favorites: (films) => getFilmsCount(films).favorite
 };
 
-export const generateFilter = (films) => Object.entries(filmToFilterMap).map(
+const generateFilter = (films) => Object.entries(filmToFilterMap).map(
   ([filterName, filmsCount]) => ({
     name: filterName,
     count: filmsCount(films)

@@ -4,7 +4,7 @@ import {nanoid} from 'nanoid';
 import {getRandomDate} from '../utils/get-random-date';
 
 
-export const generateComment = () => ({
+ const generateComment = () => ({
   id: nanoid(),
   author: getRandomElement(AUTHORS),
   comment: getRandomElement(COMMENTS),

@@ -9,11 +9,11 @@ export const getFilmsCount = (films) => ({
 export const getSortedFilms = (films, sortType) => (
   films.sort((current, next) => {
     if (sortType === 'date') {
-      return dayjs(next.info.release.date).diff(dayjs(current.info.release.date));
+      return dayjs(next.filmInfo.release.date).diff(dayjs(current.filmInfo.release.date));
     }
 
     if (sortType === 'rating') {
-      return next.info.filmRating - current.info.filmRating;
+      return next.filmInfo.filmRating - current.filmInfo.filmRating;
     }
 
     if (sortType === 'comments') {

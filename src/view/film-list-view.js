@@ -1,6 +1,6 @@
 import AbstractView from './abstract-view.js';
 
-const createFilmListTemplate  = (title) => (
+const createFilmListTemplate = (title) => (
   `<section class="films-list">
     <h2 class="films-list__title">${title}</h2>
   </section>`

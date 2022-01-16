@@ -9,7 +9,7 @@ import {getRandomInteger} from '../utils/get-random-integer';
 import {getRandomDate} from '../utils/get-random-date';
 
 
-export const generateFilmCard = () => ({
+const generateFilmCard = () => ({
   id: nanoid(),
   info: {
     title: getRandomElement(TITLES),

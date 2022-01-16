@@ -4,9 +4,14 @@ export const FILM_COUNT_PER_STEP = 5;
 export const DESCRIPTION_COUNT = 140;
 export const closeKeyNameLong = 'Escape';
 export const closeKeyNameShort = 'Esc';
+export const keyNameEnter = 'Enter';
 export const EXTRA_FILM_COUNT = 2;
 export const COMMENTS_COUNT = 80;
 export const BAR_HEIGHT = 50;
+export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
+export const API_URL = 'https://16.ecmascript.pages.academy/cinemaddict';
+export const API_AUTHORIZATION = 'Basic jkl465fsdflkc';
 
 export const SortType = {
   DEFAULT: 'default',
@@ -24,6 +29,7 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 export const FilterType = {
@@ -34,10 +40,10 @@ export const FilterType = {
 };
 
 export const NoTasksTextType = {
-  [FilterType.ALL]: 'There are no movies in our database',
-  [FilterType.WATCHLIST]: 'There are no movies to watch now',
-  [FilterType.HISTORY]: 'There are no watched movies now',
-  [FilterType.FAVORITES]: 'There are no favorite movies now'
+  [FilterType.ALL.type]: 'There are no movies in our database',
+  [FilterType.WATCHLIST.type]: 'There are no movies to watch now',
+  [FilterType.HISTORY.type]: 'There are no watched movies now',
+  [FilterType.FAVORITES.type]: 'There are no favorite movies now'
 };
 
 export const ScreenType = {
@@ -53,3 +59,7 @@ export const StatsFilterType = {
   YEAR: {type: 'year', name: 'Year'}
 };
 
+export const State = {
+  SAVING: 'SAVING',
+  DELETING: 'DELETING'
+};

@@ -19,7 +19,7 @@ export const isFilmWatchedInPeriod = ({userDetails: {watchingDate}}, period) => 
 export const getGenresStats = (films) => {
   const stats = new Map();
 
-  films.forEach(({info: {genre}}) => {
+  films.forEach(({filmInfo: {genre}}) => {
     genre.forEach((item) => {
       const count = stats.has(item) ? stats.get(item) : 0;
       stats.set(item, count + 1);

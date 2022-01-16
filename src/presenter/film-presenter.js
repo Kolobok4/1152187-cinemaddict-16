@@ -8,8 +8,8 @@ import {
   closeKeyNameLong,
   closeKeyNameShort,
   FILM_COUNT_PER_STEP,
-  FilterType, NoTasksTextType,
-  SortType, UpdateType
+  FilterType, keyNameEnter, NoTasksTextType,
+  SortType, State, UpdateType
 } from '../const';
 import PopupFilmView from '../view/film-popup-view';
 import FilmListContainerView from '../view/film-list-container-view';
@@ -28,26 +28,27 @@ export default class FilmsPresenter {
   #boardComponent = new FilmView();
   #moreButtonComponent = new ShowMoreButtonView();
 
-
   #filmsListComponent = new FilmsListView('All movies. Upcoming');
   #filmsContainerComponent = new FilmListContainerView();
   #topFilmsComponent = new FilmsListView('Top rated');
   #viralFilmsComponent = new FilmsListView('Most commented');
+  #loadingComponent = new FilmsListView('Loading...');
 
   #detailsComponent = null;
   #noFilmsComponent = null;
   #sortComponent = null;
 
   #renderedCount = FILM_COUNT_PER_STEP;
-  #renderedFilms = new Map;
+  #renderedCards = new Map;
 
   #sortType = SortType.DEFAULT;
   #filterType = FilterType.ALL;
+  #isLoading = true;
 
   constructor(boardContainer, filmsModel, commentsModel, filterModel) {
     this.#boardContainer = boardContainer;
-    this.#filmsModel = filmsModel;
     this.#commentsModel = commentsModel;
+    this.#filmsModel = filmsModel;
     this.#filterModel = filterModel;
   }
 
@@ -59,10 +60,6 @@ export default class FilmsPresenter {
     return this.#sortType === SortType.DEFAULT ? filteredFilms : getSortedFilms(filteredFilms, this.#sortType);
   }
 
-  get comments() {
-    return this.#commentsModel.comments;
-  }
-
   init = () => {
     render(this.#boardContainer, this.#boardComponent);
 
@@ -70,13 +67,11 @@ export default class FilmsPresenter {
     this.#filterModel.addObserver(this.#handleModelEvent);
 
     this.#renderBoard();
-    this.#renderExtraFilms();
   }
 
   destroy = () => {
     this.#clearBoard({resetRenderedCount: true, resetSortType: true});
-    this.#clearExtraFilms();
-
+    remove(this.#loadingComponent);
     remove(this.#boardComponent);
 
     this.#filmsModel.removeObserver(this.#handleModelEvent);
@@ -89,8 +84,8 @@ export default class FilmsPresenter {
     }
 
     this.#sortType = newSort;
-    this.#clearBoard();
-    this.#renderBoard();
+    this.#clearFullList();
+    this.#renderFullList();
   }
 
   #renderSort = () => {
@@ -100,18 +95,50 @@ export default class FilmsPresenter {
     render(this.#boardComponent, this.#sortComponent, RenderPosition.BEFOREBEGIN);
   }
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #resetFormState = () => {
+    this.#detailsComponent.updateData({
+      isDisabled: false,
+      deletingCommentId: null,
+    });
+  };
+
+  #setViewState = (state, update) => {
+    switch (state) {
+      case State.SAVING:
+        this.#detailsComponent.updateData({
+          isDisabled: true,
+        });
+        break;
+      case State.DELETING:
+        this.#detailsComponent.updateData({
+          deletingCommentId: update
+        });
+        break;
+    }
+  }
+
+  #handleViewAction = async (actionType, updateType, update) => {
     switch (actionType) {
       case ActionType.UPDATE_FILM:
-        this.#filmsModel.update(updateType, update);
+        this.#filmsModel.updateFilm(updateType, update);
         break;
       case ActionType.ADD_COMMENT:
-        this.#commentsModel.add(update);
-        this.#filmsModel.addComment(updateType, update);
+        this.#setViewState(State.SAVING);
+        try {
+          await this.#commentsModel.add(updateType, update);
+        } catch (err) {
+          const shakeElement = this.#detailsComponent.element.querySelector('.film-details__new-comment');
+          this.#detailsComponent.shake(shakeElement, this.#resetFormState);
+        }
         break;
       case ActionType.DELETE_COMMENT:
-        this.#commentsModel.delete(update);
-        this.#filmsModel.deleteComment(updateType, update);
+        this.#setViewState(State.DELETING, update);
+        try {
+          await this.#commentsModel.delete(updateType, update);
+        } catch (err) {
+          const shakeElement = document.getElementById(`${update}`);
+          this.#detailsComponent.shake(shakeElement, this.#resetFormState);
+        }
         break;
     }
   }
@@ -132,25 +159,33 @@ export default class FilmsPresenter {
         this.#clearBoard({resetRenderedCount: true, resetSortType: true});
         this.#renderBoard();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderBoard();
+        break;
     }
   }
 
-  #updateDetails = (updatedFilm) => {
+  #updateDetails = async (updatedFilm) => {
     if (this.#detailsComponent.filmData.id === updatedFilm.id) {
       this.#detailsComponent.updateData({
         film: updatedFilm,
-        comments: this.#commentsModel.getFilmComment(updatedFilm)
+        comments: await this.#commentsModel.getComments(updatedFilm.id),
+        isDisabled: false,
+        deletingCommentId: null
       });
     }
   }
 
-  #openDetails = (film) => {
+  #openDetails = async (film) => {
     if (this.#detailsComponent !== null) {
       this.#closeDetails();
     }
 
-    this.#detailsComponent = new PopupFilmView(film, this.#commentsModel.getFilmComment(film));
+    const comments = await this.#commentsModel.getComments(film.id);
 
+    this.#detailsComponent = new PopupFilmView(film, comments);
     bodyElement.classList.add('hide-overflow');
     render(bodyElement, this.#detailsComponent);
 
@@ -166,7 +201,7 @@ export default class FilmsPresenter {
   }
 
   #handleKeydown = (evt) => {
-    if (evt.key === 'Enter' && (evt.ctrlKey || evt.metaKey)) {
+    if (evt.key === keyNameEnter && (evt.ctrlKey || evt.metaKey)) {
       this.#addComment();
       return;
     }
@@ -178,7 +213,7 @@ export default class FilmsPresenter {
   }
 
   #updateCard = (updatedFilm) => {
-    const filmCard = this.#renderedFilms.get(updatedFilm.id);
+    const filmCard = this.#renderedCards.get(updatedFilm.id);
 
     if (filmCard) {
       filmCard.updateData(updatedFilm);
@@ -231,15 +266,15 @@ export default class FilmsPresenter {
 
   #addComment = () => {
     const film = this.#detailsComponent.filmData;
+    const filmId = film.id;
 
     const comment = {
-      id: this.comments[this.comments.length - 1].id + 1,
       comment: film.commentText,
       emotion: film.activeEmoji
     };
 
     if (comment.comment && comment.emotion) {
-      this.#handleViewAction(ActionType.ADD_COMMENT, UpdateType.PATCH, {film, comment});
+      this.#handleViewAction(ActionType.ADD_COMMENT, UpdateType.PATCH, {filmId, comment});
     }
   }
 
@@ -247,7 +282,7 @@ export default class FilmsPresenter {
     this.#handleViewAction(ActionType.DELETE_COMMENT, UpdateType.PATCH, id);
   }
 
-  #renderFilm = (container, film) => {
+  #renderCard = (container, film) => {
     const cardComponent = new FilmCardView(film);
     render(container, cardComponent);
 
@@ -261,10 +296,10 @@ export default class FilmsPresenter {
     return cardComponent;
   }
 
-  #renderFilms = (films) => {
+  #renderCards = (films) => {
     films.forEach((film) => {
-      const filmCard = this.#renderFilm(this.#filmsContainerComponent, film);
-      this.#renderedFilms.set(film.id, filmCard);
+      const filmCard = this.#renderCard(this.#filmsContainerComponent, film);
+      this.#renderedCards.set(film.id, filmCard);
     });
   }
 
@@ -273,12 +308,16 @@ export default class FilmsPresenter {
     render(this.#boardComponent, this.#noFilmsComponent);
   }
 
+  #renderLoading = () => {
+    render(this.#boardComponent, this.#loadingComponent);
+  }
+
   #handleMoreButtonClick = () => {
     const filmsCount = this.films.length;
     const newRenderedCount = Math.min(filmsCount, this.#renderedCount + FILM_COUNT_PER_STEP);
     const films = this.films.slice(this.#renderedCount, newRenderedCount);
 
-    this.#renderFilms(films);
+    this.#renderCards(films);
     this.#renderedCount = newRenderedCount;
 
     if (this.#renderedCount >= filmsCount) {
@@ -298,10 +337,13 @@ export default class FilmsPresenter {
     const films = this.films.slice(0, Math.min(filmsCount, this.#renderedCount));
 
     this.#filmsListComponent.element.querySelector('.films-list__title').classList.add('visually-hidden');
+
+    this.#renderSort();
+
     render(this.#boardComponent, this.#filmsListComponent, RenderPosition.AFTERBEGIN);
     render(this.#filmsListComponent, this.#filmsContainerComponent);
 
-    this.#renderFilms(films);
+    this.#renderCards(films);
 
     if (filmsCount > this.#renderedCount) {
       this.#renderMoreButton();
@@ -315,11 +357,11 @@ export default class FilmsPresenter {
     const containerComponent = new FilmListContainerView();
     render(component, containerComponent);
 
-    films.forEach((film) => this.#renderFilm(containerComponent, film));
+    films.forEach((film) => this.#renderCard(containerComponent, film));
   }
 
   #renderExtraFilms = () => {
-    if (this.films.some(({info}) => info.filmRating > 0)) {
+    if (this.films.some(({filmInfo}) => filmInfo.totalRating > 0)) {
       this.#renderExtraList(this.#topFilmsComponent, this.#filmsModel.topFilms);
     }
 
@@ -333,9 +375,9 @@ export default class FilmsPresenter {
     remove(this.#viralFilmsComponent);
   }
 
-  #clearBoard = ({resetRenderedCount = false, resetSortType = false} = {}) => {
-    this.#renderedFilms.forEach((card) => remove(card));
-    this.#renderedFilms.clear();
+  #clearFullList = ({resetRenderedCount = false} = {}) => {
+    this.#renderedCards.forEach((card) => remove(card));
+    this.#renderedCards.clear();
 
     if (resetRenderedCount) {
       this.#renderedCount = FILM_COUNT_PER_STEP;
@@ -344,6 +386,11 @@ export default class FilmsPresenter {
     remove(this.#sortComponent);
     remove(this.#moreButtonComponent);
     remove(this.#filmsListComponent);
+  }
+
+  #clearBoard = ({resetRenderedCount = false, resetSortType = false} = {}) => {
+    this.#clearFullList({resetRenderedCount: resetRenderedCount});
+    this.#clearExtraFilms();
 
     if (this.#noFilmsComponent) {
       remove(this.#noFilmsComponent);
@@ -355,11 +402,17 @@ export default class FilmsPresenter {
   }
 
   #renderBoard = () => {
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
+
     if (this.films.length === 0) {
       this.#renderNoFilms();
       return;
     }
-    this.#renderSort();
+
     this.#renderFullList();
+    this.#renderExtraFilms();
   };
 }
