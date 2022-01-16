@@ -1,4 +1,5 @@
 import AbstractView from '../view/abstract-view';
+
 export const RenderPosition = {
   BEFOREBEGIN: 'beforebegin',
   AFTERBEGIN: 'afterbegin',
@@ -39,7 +40,7 @@ export const createElement = (template) => {
 
 export const replace = (newElement, oldElement) => {
   if (newElement === null || oldElement === null) {
-    throw new Error('Can\'t replace unexisting elements');
+    throw new Error('Can\'t replace unexciting elements');
   }
 
   const newChild = newElement instanceof AbstractView ? newElement.element : newElement;
@@ -66,4 +67,3 @@ export const remove = (component) => {
   component.element.remove();
   component.removeElement();
 };
-

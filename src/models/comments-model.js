@@ -34,7 +34,7 @@ export default class CommentsModel extends AbstractObservable {
     const index = this.#comments.findIndex((item) => item.id === id);
 
     if (index === -1) {
-      throw new Error('Can\'t delete unexisting comment');
+      throw new Error('Can\'t delete unexciting comment');
     }
 
     try {

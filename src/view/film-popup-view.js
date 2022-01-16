@@ -94,8 +94,6 @@ const createFilmDetailsTemplate = ({
   const watchedClassName = userDetails.alreadyWatched ? CONTROL_ACTIVE_CLASS : '';
   const favoriteClassName = userDetails.favorite ? CONTROL_ACTIVE_CLASS : '';
 
-  const genresNaming = genre.length > 1 ? 'Genres' : 'Genre';
-
   const genres = genre.map(createFilmsGenreTemplate).join('');
   const commentsTemplate = createCommentsTemplate(comments, activeEmoji, commentText, isDisabled, deletingCommentId);
 
@@ -150,7 +148,7 @@ const createFilmDetailsTemplate = ({
                 <td class="film-details__cell">${release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">${genresNaming}</td>
+                <td class="film-details__term">${genre.length > 1 ? 'Genres' : 'Genre'}</td>
                 <td class="film-details__cell">
                   ${genres}
                 </td>
