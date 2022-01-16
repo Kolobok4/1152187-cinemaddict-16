@@ -3,7 +3,7 @@ import {formatDuration} from '../utils/format-duration';
 import {formatDate} from '../utils/format-date';
 import {getTimeFromNow} from '../utils/get-time-from-now';
 import he from 'he';
-import {EMOTIONS} from "../const";
+import {EMOTIONS} from '../const';
 
 const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 
