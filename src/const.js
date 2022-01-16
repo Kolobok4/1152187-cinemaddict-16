@@ -1,12 +1,9 @@
-
-export const FILM_COUNT = 20;
 export const FILM_COUNT_PER_STEP = 5;
 export const DESCRIPTION_COUNT = 140;
 export const closeKeyNameLong = 'Escape';
 export const closeKeyNameShort = 'Esc';
 export const keyNameEnter = 'Enter';
 export const EXTRA_FILM_COUNT = 2;
-export const COMMENTS_COUNT = 80;
 export const BAR_HEIGHT = 50;
 export const SHAKE_ANIMATION_TIMEOUT = 600;
 export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
@@ -62,4 +59,11 @@ export const StatsFilterType = {
 export const State = {
   SAVING: 'SAVING',
   DELETING: 'DELETING'
+};
+
+export const Method = {
+  GET: 'GET',
+  PUT: 'PUT',
+  POST: 'POST',
+  DELETE: 'DELETE'
 };

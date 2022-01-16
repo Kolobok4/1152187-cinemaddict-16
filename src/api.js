@@ -1,9 +1,5 @@
-const Method = {
-  GET: 'GET',
-  PUT: 'PUT',
-  POST: 'POST',
-  DELETE: 'DELETE'
-};
+import {Method} from './const';
+
 export default class ApiService {
   #url = null;
   #authorization = null;
@@ -54,11 +50,11 @@ export default class ApiService {
   );
 
   #load = async ({
-                   url,
-                   method = Method.GET,
-                   body = null,
-                   headers = new Headers(),
-                 }) => {
+    url,
+    method = Method.GET,
+    body = null,
+    headers = new Headers(),
+  }) => {
     headers.append('Authorization', this.#authorization);
 
     const response = await fetch(`${this.#url}/${url}`, {method, body, headers});

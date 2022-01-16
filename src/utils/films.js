@@ -13,7 +13,7 @@ export const getSortedFilms = (films, sortType) => (
     }
 
     if (sortType === 'rating') {
-      return next.filmInfo.filmRating - current.filmInfo.filmRating;
+      return next.filmInfo.totalRating - current.filmInfo.totalRating;
     }
 
     if (sortType === 'comments') {
