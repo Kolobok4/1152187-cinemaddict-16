@@ -4,9 +4,8 @@ import FilmView from '../view/film-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmCardView from '../view/film-card-view';
 import {
-  ActionType, bodyElement, closeKeyName,
-  FILM_COUNT_PER_STEP,
-  FilterType, KEY_NAME_ENTER, NoFilmsText,
+  ActionType, bodyElement, FILM_COUNT_PER_STEP,
+  FilterType, keyName, NoFilmsText,
   SortType, State, UpdateType
 } from '../const';
 import PopupFilmView from '../view/film-popup-view';
@@ -27,7 +26,7 @@ export default class FilmsPresenter {
   #filmsListComponent = new FilmsListView('All movies. Upcoming');
   #filmsContainerComponent = new FilmListContainerView();
   #topFilmsComponent = new FilmsListView('Top rated');
-  #viralFilmsComponent = new FilmsListView('Most commented');
+  #commentedFilmsComponent = new FilmsListView('Most commented');
   #loadingComponent = new FilmsListView('Loading...');
 
   #detailsComponent = null;
@@ -197,12 +196,12 @@ export default class FilmsPresenter {
   }
 
   #handleKeydown = (evt) => {
-    if (evt.key === KEY_NAME_ENTER && (evt.ctrlKey || evt.metaKey)) {
+    if (evt.key === keyName.SEND && (evt.ctrlKey || evt.metaKey)) {
       this.#addComment();
       return;
     }
 
-    if (evt.key === closeKeyName.SHORT || evt.key === closeKeyName.LONG) {
+    if (evt.key === keyName.CLOSE_SHORT || evt.key === keyName.CLOSE_LONG) {
       evt.preventDefault();
       this.#closeDetails();
     }
@@ -362,13 +361,13 @@ export default class FilmsPresenter {
     }
 
     if (this.films.some(({comments}) => comments.length > 0)) {
-      this.#renderExtraList(this.#viralFilmsComponent, this.#filmsModel.viralFilms);
+      this.#renderExtraList(this.#commentedFilmsComponent, this.#filmsModel.commentedFilms);
     }
   }
 
   #clearExtraFilms = () => {
     remove(this.#topFilmsComponent);
-    remove(this.#viralFilmsComponent);
+    remove(this.#commentedFilmsComponent);
   }
 
   #clearFullList = ({resetRenderedCount = false} = {}) => {

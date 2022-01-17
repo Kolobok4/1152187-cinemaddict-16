@@ -32,7 +32,7 @@ export default class FilmsModel extends AbstractObservable {
     return getSortedFilms([...this.films], 'rating').slice(0, EXTRA_FILM_COUNT);
   }
 
-  get viralFilms() {
+  get commentedFilms() {
     return getSortedFilms([...this.films], 'comments').slice(0, EXTRA_FILM_COUNT);
   }
 
@@ -54,41 +54,41 @@ export default class FilmsModel extends AbstractObservable {
     return [...this.films].filter((film) => film.userDetails.alreadyWatched);
   }
 
-  addComment = (type, filmId, comments) => {
+  addComment = (updateType, filmId, comments) => {
     const updatedFilm = {
       ...this.films.find(({id}) => id === filmId),
       comments: comments
     };
 
-    this.#updateList(type, updatedFilm);
+    this.#updateList(updateType, updatedFilm);
   }
 
-  deleteComment = (type, id) => {
+  deleteComment = (updateType, id) => {
     const film = this.films.find(({comments}) => comments.includes(id));
     const updatedFilm = {
       ...film,
       comments: film.comments.filter((item) => item !== id)
     };
 
-    this.#updateList(type, updatedFilm);
+    this.#updateList(updateType, updatedFilm);
   }
 
-  updateFilm = async (type, update) => {
+  updateFilm = async (updateType, update) => {
     try {
       const response = await this.#apiService.updateFilm(update);
       const updatedFilm = this.#adaptToClient(response);
 
-      this.#updateList(type, updatedFilm);
+      this.#updateList(updateType, updatedFilm);
     } catch (err) {
       throw new Error('Can\'t update film');
     }
   }
 
-  #updateList = (type, updatedFilm) => {
+  #updateList = (updateType, updatedFilm) => {
     const index = this.#films.findIndex((item) => item.id === updatedFilm.id);
 
     if (index === -1) {
-      throw new Error('Can\'t update unexisting film');
+      throw new Error('Can\'t update unexciting film');
     }
 
     this.#films = [
@@ -97,7 +97,7 @@ export default class FilmsModel extends AbstractObservable {
       ...this.#films.slice(index + 1),
     ];
 
-    this._notify(type, updatedFilm);
+    this._notify(updateType, updatedFilm);
   }
 
   #adaptToClient = (film) => {

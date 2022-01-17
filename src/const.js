@@ -1,6 +1,5 @@
 export const FILM_COUNT_PER_STEP = 5;
 export const DESCRIPTION_COUNT = 140;
-export const KEY_NAME_ENTER = 'Enter';
 export const EXTRA_FILM_COUNT = 2;
 export const BAR_HEIGHT = 50;
 export const SHAKE_ANIMATION_TIMEOUT = 600;
@@ -8,14 +7,13 @@ export const bodyElement = document.body;
 export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 export const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 export const API_URL = 'https://16.ecmascript.pages.academy/cinemaddict';
-export const API_AUTHORIZATION = 'Basic jkl465fsdflkc';
+export const API_AUTHORIZATION = 'Basic jkl46fsd56kc';
 
-
-export const closeKeyName = {
-  SHORT: 'Esc',
-  LONG: 'Escape'
+export const keyName = {
+  CLOSE_SHORT: 'Esc',
+  CLOSE_LONG: 'Escape',
+  SEND:  'Enter'
 };
-
 
 export const SortType = {
   DEFAULT: 'default',
