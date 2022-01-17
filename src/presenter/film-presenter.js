@@ -34,7 +34,7 @@ export default class FilmsPresenter {
   #sortComponent = null;
 
   #renderedCount = FILM_COUNT_PER_STEP;
-  #renderedCards = new Map;
+  #renderedFilms = new Map;
 
   #sortType = SortType.DEFAULT;
   #filterType = FilterType.ALL;
@@ -208,7 +208,7 @@ export default class FilmsPresenter {
   }
 
   #updateCard = (updatedFilm) => {
-    const filmCard = this.#renderedCards.get(updatedFilm.id);
+    const filmCard = this.#renderedFilms.get(updatedFilm.id);
 
     if (filmCard) {
       filmCard.updateData(updatedFilm);
@@ -294,7 +294,7 @@ export default class FilmsPresenter {
   #renderCards = (films) => {
     films.forEach((film) => {
       const filmCard = this.#renderCard(this.#filmsContainerComponent, film);
-      this.#renderedCards.set(film.id, filmCard);
+      this.#renderedFilms.set(film.id, filmCard);
     });
   }
 
@@ -371,8 +371,8 @@ export default class FilmsPresenter {
   }
 
   #clearFullList = ({resetRenderedCount = false} = {}) => {
-    this.#renderedCards.forEach((card) => remove(card));
-    this.#renderedCards.clear();
+    this.#renderedFilms.forEach((film) => remove(film));
+    this.#renderedFilms.clear();
 
     if (resetRenderedCount) {
       this.#renderedCount = FILM_COUNT_PER_STEP;
