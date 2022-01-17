@@ -1,11 +1,9 @@
 import SmartView from './smart-view';
-import {formatDuration} from '../utils/format-duration';
-import {formatDate} from '../utils/format-date';
-import {getTimeFromNow} from '../utils/get-time-from-now';
+import {formatFilmDuration} from '../utils/format-film-duration';
+import {formatReleaseDate} from '../utils/format-release-date';
+import {formatCommentDate} from '../utils/format-comment-date';
 import he from 'he';
-import {EMOTIONS} from '../const';
-
-const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
+import {CONTROL_ACTIVE_CLASS, EMOTIONS} from '../const';
 
 const createFilmsGenreTemplate = (genre) => (
   `<span class="film-details__genre">${genre}</span>`
@@ -28,7 +26,7 @@ const createFilmsCommentTemplate = ({id, author, comment, date, emotion}, isDele
       <p class="film-details__comment-text">${he.encode(comment)}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
-        <span class="film-details__comment-day">${getTimeFromNow(date)}</span>
+        <span class="film-details__comment-day">${formatCommentDate(date)}</span>
         <button class="film-details__comment-delete" data-comment="${id}" ${isDeleting ? 'disabled' : ''}>
           ${isDeleting ? 'Deleting...' : 'Delete'}
         </button>
@@ -44,14 +42,12 @@ const createCommentsTemplate = (comments, activeEmoji, commentText, isDisabled, 
   const emojiList = EMOTIONS.map((emoji) => createEmojiItemTemplate(emoji, activeEmoji, isDisabled)).join('\n');
 
   return `<section class="film-details__comments-wrap">
-    <h3 class="film-details__comments-title">
-      Comments <span class="film-details__comments-count">${comments.length}</span>
+    <h3 class="film-details__comments-title">${comments.length > 1 ? 'Comments' : 'Comment'}
+    <span class="film-details__comments-count">${comments.length}</span>
     </h3>
-
     <ul class="film-details__comments-list">
       ${commentsList}
     </ul>
-
     <div class="film-details__new-comment">
       <div class="film-details__add-emoji-label">
           ${activeEmoji ? `<img src="images/emoji/${activeEmoji}.png" width="55" height="55" alt="emoji-${activeEmoji}">` : ''}
@@ -90,11 +86,7 @@ const createFilmDetailsTemplate = ({
     genre
   } = filmInfo;
 
-  const watchlistClassName = userDetails.watchlist ? CONTROL_ACTIVE_CLASS : '';
-  const watchedClassName = userDetails.alreadyWatched ? CONTROL_ACTIVE_CLASS : '';
-  const favoriteClassName = userDetails.favorite ? CONTROL_ACTIVE_CLASS : '';
-
-  const genres = genre.map(createFilmsGenreTemplate).join('');
+  const genresTemplate = genre.map(createFilmsGenreTemplate).join('');
   const commentsTemplate = createCommentsTemplate(comments, activeEmoji, commentText, isDisabled, deletingCommentId);
 
   return `<section class="film-details">
@@ -137,11 +129,11 @@ const createFilmDetailsTemplate = ({
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${formatDate(release.date)}</td>
+                <td class="film-details__cell">${formatReleaseDate(release.date)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${formatDuration(runtime)}</td>
+                <td class="film-details__cell">${formatFilmDuration(runtime)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -150,7 +142,7 @@ const createFilmDetailsTemplate = ({
               <tr class="film-details__row">
                 <td class="film-details__term">${genre.length > 1 ? 'Genres' : 'Genre'}</td>
                 <td class="film-details__cell">
-                  ${genres}
+                  ${genresTemplate}
                 </td>
               </tr>
             </table>
@@ -158,14 +150,12 @@ const createFilmDetailsTemplate = ({
             <p class="film-details__film-description">${description}</p>
           </div>
         </div>
-
-        <section class="film-details__controls">
-          <button name="watchlist" type="button" class="film-details__control-button film-details__control-button--watchlist ${watchlistClassName}" id="watchlist">Add to watchlist</button>
-          <button name="watched" type="button" class="film-details__control-button film-details__control-button--watched ${watchedClassName}" id="watched">Already watched</button>
-          <button name="favorite" type="button" class="film-details__control-button film-details__control-button--favorite ${favoriteClassName}" id="favorite">Add to favorites</button>
+                <section class="film-details__controls">
+          <button name="watchlist" type="button" class="film-details__control-button film-details__control-button--watchlist ${userDetails.watchlist ? CONTROL_ACTIVE_CLASS : ''}" id="watchlist">Add to watchlist</button>
+          <button name="watched" type="button" class="film-details__control-button film-details__control-button--watched ${userDetails.alreadyWatched ? CONTROL_ACTIVE_CLASS : ''}" id="watched">Already watched</button>
+          <button name="favorite" type="button" class="film-details__control-button film-details__control-button--favorite ${userDetails.favorite ? CONTROL_ACTIVE_CLASS : ''}" id="favorite">Add to favorites</button>
         </section>
       </div>
-
       <div class="film-details__bottom-container">
         ${commentsTemplate}
       </div>
@@ -173,11 +163,11 @@ const createFilmDetailsTemplate = ({
   </section>`;
 };
 
-export default class FilmDetailsView extends SmartView {
+export default class PopupFilmView extends SmartView {
   constructor(film, comments) {
     super();
     this._data = {
-      film: FilmDetailsView.parseFilmToData(film),
+      film: PopupFilmView.parseFilmToData(film),
       comments: comments
     };
 
@@ -234,7 +224,7 @@ export default class FilmDetailsView extends SmartView {
   #controlClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.controlClick(
-      FilmDetailsView.parseDataToFilm(this._data.film),
+      PopupFilmView.parseDataToFilm(this._data.film),
       evt.target.getAttribute('name')
     );
   }

@@ -4,11 +4,9 @@ import FilmView from '../view/film-view';
 import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmCardView from '../view/film-card-view';
 import {
-  ActionType,
-  closeKeyNameLong,
-  closeKeyNameShort,
+  ActionType, bodyElement, closeKeyName,
   FILM_COUNT_PER_STEP,
-  FilterType, keyNameEnter, NoTasksTextType,
+  FilterType, KEY_NAME_ENTER, NoFilmsText,
   SortType, State, UpdateType
 } from '../const';
 import PopupFilmView from '../view/film-popup-view';
@@ -16,8 +14,6 @@ import FilmListContainerView from '../view/film-list-container-view';
 import FilmsListView from '../view/film-list-view';
 import {getSortedFilms} from '../utils/films';
 import {filter} from '../utils/filters';
-
-const bodyElement = document.body;
 
 export default class FilmsPresenter {
   #boardContainer = null;
@@ -120,7 +116,7 @@ export default class FilmsPresenter {
   #handleViewAction = async (actionType, updateType, update) => {
     switch (actionType) {
       case ActionType.UPDATE_FILM:
-        this.#filmsModel.updateFilm(updateType, update);
+        await this.#filmsModel.updateFilm(updateType, update);
         break;
       case ActionType.ADD_COMMENT:
         this.#setViewState(State.SAVING);
@@ -201,12 +197,12 @@ export default class FilmsPresenter {
   }
 
   #handleKeydown = (evt) => {
-    if (evt.key === keyNameEnter && (evt.ctrlKey || evt.metaKey)) {
+    if (evt.key === KEY_NAME_ENTER && (evt.ctrlKey || evt.metaKey)) {
       this.#addComment();
       return;
     }
 
-    if (evt.key === closeKeyNameShort || evt.key === closeKeyNameLong) {
+    if (evt.key === closeKeyName.SHORT || evt.key === closeKeyName.LONG) {
       evt.preventDefault();
       this.#closeDetails();
     }
@@ -304,7 +300,7 @@ export default class FilmsPresenter {
   }
 
   #renderNoFilms = () => {
-    this.#noFilmsComponent = new FilmsListView(NoTasksTextType[this.#filterType]);
+    this.#noFilmsComponent = new FilmsListView(NoFilmsText[this.#filterType]);
     render(this.#boardComponent, this.#noFilmsComponent);
   }
 

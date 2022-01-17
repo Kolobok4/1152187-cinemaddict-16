@@ -1,14 +1,21 @@
 export const FILM_COUNT_PER_STEP = 5;
 export const DESCRIPTION_COUNT = 140;
-export const closeKeyNameLong = 'Escape';
-export const closeKeyNameShort = 'Esc';
-export const keyNameEnter = 'Enter';
+export const KEY_NAME_ENTER = 'Enter';
 export const EXTRA_FILM_COUNT = 2;
 export const BAR_HEIGHT = 50;
 export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const bodyElement = document.body;
 export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
+export const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 export const API_URL = 'https://16.ecmascript.pages.academy/cinemaddict';
 export const API_AUTHORIZATION = 'Basic jkl465fsdflkc';
+
+
+export const closeKeyName = {
+  SHORT: 'Esc',
+  LONG: 'Escape'
+};
+
 
 export const SortType = {
   DEFAULT: 'default',
@@ -36,7 +43,7 @@ export const FilterType = {
   FAVORITES: {type: 'favorites', name: 'Favorites'}
 };
 
-export const NoTasksTextType = {
+export const NoFilmsText = {
   [FilterType.ALL.type]: 'There are no movies in our database',
   [FilterType.WATCHLIST.type]: 'There are no movies to watch now',
   [FilterType.HISTORY.type]: 'There are no watched movies now',
