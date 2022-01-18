@@ -7,13 +7,10 @@ export default class SmartView extends AbstractView {
     if (!update) {
       return;
     }
-
     this._data = {...this._data, ...update};
-
     if (skipRender) {
       return;
     }
-
     this.updateElement();
   }
 
@@ -22,12 +19,9 @@ export default class SmartView extends AbstractView {
     const parent = prevElement.parentElement;
     const scrollPosition = this.element.scrollTop;
     this.removeElement();
-
     const newElement = this.element;
     parent.replaceChild(newElement, prevElement);
     this.element.scrollTop = scrollPosition;
-
-
     this.restoreHandlers();
   }
 

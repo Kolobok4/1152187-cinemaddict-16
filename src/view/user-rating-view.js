@@ -1,37 +1,35 @@
-import AbstractView from './abstract-view.js';
+import SmartView from './smart-view';
+import {UpdateType} from '../const';
 
-
-const createUserRatingTemplate = (count) => {
-  const getRank = () => {
-    if (count <= 10) {
-      return 'Novice';
-    } else if (count <= 20) {
-      return 'Fan';
-    } else {
-      return 'Movie buff';
-    }
-  };
-
-  if (count === 0) {
-    return '';
-  }
-
-  return `<section class="header__profile profile">
-    <p class="profile__rating">${getRank()}</p>
+const createUserRatingTemplate = (rank) => (
+  rank ? `<section class="header__profile profile">
+    <p class="profile__rating">${rank}</p>
     <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-  </section>`;
-};
+  </section>` : ''
+);
 
-export default class UserRatingView extends AbstractView {
-  #count = null;
+export default class UserRatingView extends SmartView {
+  #rank = null;
+  #filmsModel = null;
 
-  constructor(count = 0) {
+  constructor(filmsModel) {
     super();
-    this.#count = count;
+    this.#filmsModel = filmsModel;
+    this.#rank = this.#filmsModel.userRank;
+    this.#filmsModel.addObserver(this.#handleModelEvent);
   }
 
   get template() {
-    return createUserRatingTemplate(this.#count);
+    return createUserRatingTemplate(this.#rank);
   }
+
+  #handleModelEvent = (updateType) => {
+    if (updateType === UpdateType.MINOR) {
+      this.#rank = this.#filmsModel.userRank;
+      this.updateData({});
+    }
+  }
+
+  restoreHandlers = () => {}
 }
 

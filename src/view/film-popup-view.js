@@ -1,34 +1,93 @@
-import {EMOTIONS} from '../mock/data';
-import FilmCommentView from './film-comment-view';
 import SmartView from './smart-view';
-import {formatDuration} from '../utils/format-duration';
-import {formatDate} from '../utils/format-date';
-
-const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
+import {formatFilmDuration} from '../utils/format-film-duration';
+import {formatReleaseDate} from '../utils/format-release-date';
+import {formatCommentDate} from '../utils/format-comment-date';
+import he from 'he';
+import {CONTROL_ACTIVE_CLASS, EMOTIONS} from '../const';
 
 const createFilmsGenreTemplate = (genre) => (
   `<span class="film-details__genre">${genre}</span>`
 );
 
-const createEmojiItemTemplate = (emoji, activeEmoji) => (
+const createEmojiItemTemplate = (emoji, activeEmoji, isDisabled) => (
   `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}"
-    value="${emoji}" ${activeEmoji === emoji ? 'checked' : ''}>
+    value="${emoji}" ${activeEmoji === emoji ? 'checked' : ''} ${isDisabled ? 'disabled' : ''}>
   <label class="film-details__emoji-label" for="emoji-${emoji}">
     <img data-emoji="${emoji}" src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
   </label>`
 );
 
-const createFilmDetailsTemplate = ({info, userDetails, comments, activeEmoji, commentText}, commentsData) => {
-  const {poster, ageRating, title, filmRating, director, writers, actors,release, runtime, description, genre} = info;
+const createFilmsCommentTemplate = ({id, author, comment, date, emotion}, isDeleting) => (
+  `<li class="film-details__comment">
+    <span class="film-details__comment-emoji">
+      <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
+    </span>
+    <div>
+      <p class="film-details__comment-text">${he.encode(comment)}</p>
+      <p class="film-details__comment-info">
+        <span class="film-details__comment-author">${author}</span>
+        <span class="film-details__comment-day">${formatCommentDate(date)}</span>
+        <button class="film-details__comment-delete" data-comment="${id}" ${isDeleting ? 'disabled' : ''}>
+          ${isDeleting ? 'Deleting...' : 'Delete'}
+        </button>
+      </p>
+    </div>
+  </li>`
+);
 
-  const genresNaming = genre.length > 1 ? 'Genres' : 'Genre';
+const createCommentsTemplate = (comments, activeEmoji, commentText, isDisabled, deletingCommentId) => {
+  const commentsList = comments.map((comment) => (
+    createFilmsCommentTemplate(comment, deletingCommentId === comment.id)
+  )).join('\n');
+  const emojiList = EMOTIONS.map((emoji) => createEmojiItemTemplate(emoji, activeEmoji, isDisabled)).join('\n');
 
-  const genres = genre.map(createFilmsGenreTemplate).join('');
+  return `<section class="film-details__comments-wrap">
+    <h3 class="film-details__comments-title">${comments.length > 1 ? 'Comments' : 'Comment'}
+    <span class="film-details__comments-count">${comments.length}</span>
+    </h3>
+    <ul class="film-details__comments-list">
+      ${commentsList}
+    </ul>
+    <div class="film-details__new-comment">
+      <div class="film-details__add-emoji-label">
+          ${activeEmoji ? `<img src="images/emoji/${activeEmoji}.png" width="55" height="55" alt="emoji-${activeEmoji}">` : ''}
+      </div>
 
-  const commentsQuantity = comments.length;
+      <label class="film-details__comment-label">
+        <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here"
+        name="comment" ${isDisabled ? 'disabled' : ''}>${commentText ? he.encode(commentText) : ''}</textarea>
+      </label>
 
-  const commentsList = commentsData.map((comment) => new FilmCommentView(comment).template).join('');
-  const emojiList = EMOTIONS.map((emoji) => createEmojiItemTemplate(emoji, activeEmoji)).join('');
+      <div class="film-details__emoji-list">
+        ${emojiList}
+      </div>
+    </div>
+  </section>`;
+};
+
+const createFilmDetailsTemplate = ({
+  film: {filmInfo, userDetails, activeEmoji, commentText},
+  comments,
+  isDisabled,
+  deletingCommentId
+}) => {
+  const {
+    poster,
+    ageRating,
+    title,
+    alternativeTitle,
+    totalRating,
+    director,
+    writers,
+    actors,
+    release,
+    runtime,
+    description,
+    genre
+  } = filmInfo;
+
+  const genresTemplate = genre.map(createFilmsGenreTemplate).join('');
+  const commentsTemplate = createCommentsTemplate(comments, activeEmoji, commentText, isDisabled, deletingCommentId);
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -39,18 +98,22 @@ const createFilmDetailsTemplate = ({info, userDetails, comments, activeEmoji, co
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
             <img class="film-details__poster-img" src="${poster}" alt="">
-            <p class="film-details__age">${ageRating}</p>
+
+            <p class="film-details__age">${ageRating}+</p>
           </div>
+
           <div class="film-details__info">
             <div class="film-details__info-head">
               <div class="film-details__title-wrap">
                 <h3 class="film-details__title">${title}</h3>
-                <p class="film-details__title-original">Original: ${title}</p>
+                <p class="film-details__title-original">Original: ${alternativeTitle}</p>
               </div>
+
               <div class="film-details__rating">
-                <p class="film-details__total-rating">${filmRating}</p>
+                <p class="film-details__total-rating">${totalRating}</p>
               </div>
             </div>
+
             <table class="film-details__table">
               <tr class="film-details__row">
                 <td class="film-details__term">Director</td>
@@ -66,91 +129,64 @@ const createFilmDetailsTemplate = ({info, userDetails, comments, activeEmoji, co
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${formatDate(release.date)}</td>
+                <td class="film-details__cell">${formatReleaseDate(release.date)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${formatDuration(runtime)}</td>
+                <td class="film-details__cell">${formatFilmDuration(runtime)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
-                <td class="film-details__cell">${release.country}</td>
+                <td class="film-details__cell">${release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">${genresNaming}</td>
+                <td class="film-details__term">${genre.length > 1 ? 'Genres' : 'Genre'}</td>
                 <td class="film-details__cell">
-                  ${genres}
-                  <span class="film-details__genre">Drama</span>
-                  <span class="film-details__genre">Film-Noir</span>
-                  <span class="film-details__genre">Mystery</span>
+                  ${genresTemplate}
                 </td>
               </tr>
             </table>
+
             <p class="film-details__film-description">${description}</p>
           </div>
         </div>
-       <section class="film-details__controls">
-  <button name="watchlist" type="button"
-          class="film-details__control-button film-details__control-button--watchlist ${userDetails.watchlist ? CONTROL_ACTIVE_CLASS : ''}"
-          id="watchlist">Add to watchlist
-  </button>
-  <button name="watched" type="button"
-          class="film-details__control-button film-details__control-button--watched ${userDetails.alreadyWatched ? CONTROL_ACTIVE_CLASS : ''}"
-          id="watched">Already watched
-  </button>
-  <button name="favorite" type="button"
-          class="film-details__control-button film-details__control-button--favorite ${userDetails.favorite ? CONTROL_ACTIVE_CLASS : ''}"
-          id="favorite">Add to favorites
-  </button>
-</section>
+                <section class="film-details__controls">
+          <button name="watchlist" type="button" class="film-details__control-button film-details__control-button--watchlist ${userDetails.watchlist ? CONTROL_ACTIVE_CLASS : ''}" id="watchlist">Add to watchlist</button>
+          <button name="watched" type="button" class="film-details__control-button film-details__control-button--watched ${userDetails.alreadyWatched ? CONTROL_ACTIVE_CLASS : ''}" id="watched">Already watched</button>
+          <button name="favorite" type="button" class="film-details__control-button film-details__control-button--favorite ${userDetails.favorite ? CONTROL_ACTIVE_CLASS : ''}" id="favorite">Add to favorites</button>
+        </section>
       </div>
       <div class="film-details__bottom-container">
-        <section class="film-details__comments-wrap">
-          <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsQuantity}</span></h3>
-          <ul class="film-details__comments-list">
-            ${commentsList}
-          </ul>
-          <div class="film-details__new-comment">
-            <div class="film-details__add-emoji-label">
-                ${activeEmoji ? `<img src="images/emoji/${activeEmoji}.png" width="55" height="55" alt="emoji-${activeEmoji}">` : ''}
-            </div>
-            <label class="film-details__comment-label">
-              <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"
-              >${commentText ? commentText : ''}</textarea>
-            </label>
-            <div class="film-details__emoji-list">
-              ${emojiList}
-            </div>
-          </div>
-        </section>
+        ${commentsTemplate}
       </div>
     </form>
   </section>`;
 };
 
 export default class PopupFilmView extends SmartView {
-  #comments = [];
-
   constructor(film, comments) {
     super();
-    this._data = PopupFilmView.parseFilmToData(film);
-    this.#comments = comments;
+    this._data = {
+      film: PopupFilmView.parseFilmToData(film),
+      comments: comments
+    };
 
     this.#setInnerHandlers();
   }
 
   get template() {
-    return createFilmDetailsTemplate(this._data, this.#comments);
+    return createFilmDetailsTemplate(this._data);
   }
 
   get filmData() {
-    return this._data;
+    return this._data.film;
   }
 
   restoreHandlers = () => {
     this.#setInnerHandlers();
     this.setCloseDetailsHandler(this._callback.closeDetailsClick);
     this.setControlClickHandler(this._callback.controlClick);
+    this.setDeleteCommentHandler(this._callback.deleteCommentClick);
   }
 
   setCloseDetailsHandler = (callback) => {
@@ -162,6 +198,13 @@ export default class PopupFilmView extends SmartView {
     this._callback.controlClick = callback;
     this.element.querySelectorAll('.film-details__control-button').forEach((control) => {
       control.addEventListener('click', this.#controlClickHandler);
+    });
+  }
+
+  setDeleteCommentHandler = (callback) => {
+    this._callback.deleteCommentClick = callback;
+    this.element.querySelectorAll('.film-details__comment-delete').forEach((button) => {
+      button.addEventListener('click', this.#deleteCommentHandler);
     });
   }
 
@@ -180,27 +223,41 @@ export default class PopupFilmView extends SmartView {
 
   #controlClickHandler = (evt) => {
     evt.preventDefault();
-    this._callback.controlClick(PopupFilmView.parseDataToFilm(this._data), evt.target.getAttribute('name'));
+    this._callback.controlClick(
+      PopupFilmView.parseDataToFilm(this._data.film),
+      evt.target.getAttribute('name')
+    );
+  }
+
+  #deleteCommentHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.deleteCommentClick(evt.target.dataset.comment);
   }
 
   #emojiClickHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
-      activeEmoji: evt.target.dataset.emoji
+      film: {
+        ...this._data.film,
+        activeEmoji: evt.target.dataset.emoji
+      }
     });
   }
 
   #commentInputHandler = (evt) => {
     evt.preventDefault();
     this.updateData({
-      commentText: evt.target.value,
+      film: {
+        ...this._data.film,
+        commentText: evt.target.value
+      }
     }, true);
   }
 
   static parseFilmToData = (film) => ({
     ...film,
-    activeEmoji: film.activeEmoji,
-    commentText: null
+    activeEmoji: null,
+    commentText: null,
   });
 
   static parseDataToFilm = (data) => {
