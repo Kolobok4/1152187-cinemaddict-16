@@ -12,13 +12,13 @@ export const API_AUTHORIZATION = 'Basic jkl46fsd56kc';
 export const keyName = {
   CLOSE_SHORT: 'Esc',
   CLOSE_LONG: 'Escape',
-  SEND:  'Enter'
+  SEND:  'Enter',
 };
 
 export const SortType = {
   DEFAULT: 'default',
   DATE: 'date',
-  RATING: 'rating'
+  RATING: 'rating',
 };
 
 export const ActionType = {
@@ -31,26 +31,26 @@ export const UpdateType = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
-  INIT: 'INIT'
+  INIT: 'INIT',
 };
 
 export const FilterType = {
   ALL: {type: 'all', name: 'All movies'},
   WATCHLIST: {type: 'watchlist', name: 'Watchlist'},
   HISTORY: {type: 'history', name: 'History'},
-  FAVORITES: {type: 'favorites', name: 'Favorites'}
+  FAVORITES: {type: 'favorites', name: 'Favorites'},
 };
 
 export const NoFilmsText = {
   [FilterType.ALL.type]: 'There are no movies in our database',
   [FilterType.WATCHLIST.type]: 'There are no movies to watch now',
   [FilterType.HISTORY.type]: 'There are no watched movies now',
-  [FilterType.FAVORITES.type]: 'There are no favorite movies now'
+  [FilterType.FAVORITES.type]: 'There are no favorite movies now',
 };
 
 export const ScreenType = {
   FILMS: 'films',
-  STATS: 'stats'
+  STATS: 'stats',
 };
 
 export const StatsFilterType = {
@@ -58,17 +58,17 @@ export const StatsFilterType = {
   TODAY: {type: 'today', name: 'Today'},
   WEEK: {type: 'week', name: 'Week'},
   MONTH: {type: 'month', name: 'Month'},
-  YEAR: {type: 'year', name: 'Year'}
+  YEAR: {type: 'year', name: 'Year'},
 };
 
 export const State = {
   SAVING: 'SAVING',
-  DELETING: 'DELETING'
+  DELETING: 'DELETING',
 };
 
 export const Method = {
   GET: 'GET',
   PUT: 'PUT',
   POST: 'POST',
-  DELETE: 'DELETE'
+  DELETE: 'DELETE',
 };
