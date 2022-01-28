@@ -99,25 +99,28 @@ export default class FilmsPresenter {
 
   #setViewState = (state, update) => {
     switch (state) {
-      case State.SAVING:
+      case State.SAVING: {
         this.#detailsComponent.updateData({
           isDisabled: true,
         });
         break;
-      case State.DELETING:
+      }
+      case State.DELETING: {
         this.#detailsComponent.updateData({
           deletingCommentId: update
         });
         break;
+      }
     }
   }
 
   #handleViewAction = async (actionType, updateType, update) => {
     switch (actionType) {
-      case ActionType.UPDATE_FILM:
+      case ActionType.UPDATE_FILM: {
         await this.#filmsModel.updateFilm(updateType, update);
         break;
-      case ActionType.ADD_COMMENT:
+      }
+      case ActionType.ADD_COMMENT: {
         this.#setViewState(State.SAVING);
         try {
           await this.#commentsModel.add(updateType, update);
@@ -126,7 +129,8 @@ export default class FilmsPresenter {
           this.#detailsComponent.shake(shakeElement, this.#resetFormState);
         }
         break;
-      case ActionType.DELETE_COMMENT:
+      }
+      case ActionType.DELETE_COMMENT: {
         this.#setViewState(State.DELETING, update);
         try {
           await this.#commentsModel.delete(updateType, update);
@@ -135,30 +139,35 @@ export default class FilmsPresenter {
           this.#detailsComponent.shake(shakeElement, this.#resetFormState);
         }
         break;
+      }
     }
   }
 
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
-      case UpdateType.PATCH:
+      case UpdateType.PATCH: {
         this.#updateCard(data);
         break;
-      case UpdateType.MINOR:
+      }
+      case UpdateType.MINOR: {
         this.#clearBoard();
         this.#renderBoard();
         if (this.#detailsComponent !== null) {
           this.#updateDetails(data);
         }
         break;
-      case UpdateType.MAJOR:
+      }
+      case UpdateType.MAJOR: {
         this.#clearBoard({resetRenderedCount: true, resetSortType: true});
         this.#renderBoard();
         break;
-      case UpdateType.INIT:
+      }
+      case UpdateType.INIT: {
         this.#isLoading = false;
         remove(this.#loadingComponent);
         this.#renderBoard();
         break;
+      }
     }
   }
 
