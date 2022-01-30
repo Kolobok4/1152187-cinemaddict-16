@@ -36,6 +36,10 @@ export default class FilmsModel extends AbstractObservable {
     return getSortedFilms([...this.films], 'comments').slice(0, EXTRA_FILM_COUNT);
   }
 
+  get watchedFilms() {
+    return [...this.films].filter((film) => film.userDetails.alreadyWatched);
+  }
+
   get userRank() {
     const count = filter.history(this.films).length;
     if (count === 0) {
@@ -48,10 +52,6 @@ export default class FilmsModel extends AbstractObservable {
       return 'Fan';
     }
     return 'Movie buff';
-  }
-
-  get watchedFilms() {
-    return [...this.films].filter((film) => film.userDetails.alreadyWatched);
   }
 
   addComment = (updateType, filmId, comments) => {

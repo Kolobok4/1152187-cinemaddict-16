@@ -7,7 +7,7 @@ export const bodyElement = document.body;
 export const EMOTIONS = ['smile', 'sleeping', 'puke', 'angry'];
 export const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 export const API_URL = 'https://16.ecmascript.pages.academy/cinemaddict';
-export const API_AUTHORIZATION = 'Basic jkl46fsd56kc';
+export const API_AUTHORIZATION = 'Basic jkfs46fsd56kc';
 
 export const keyName = {
   CLOSE_SHORT: 'Esc',
