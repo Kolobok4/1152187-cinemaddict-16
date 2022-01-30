@@ -16,7 +16,7 @@ export default class CommentsModel extends AbstractObservable {
       this.#comments = await this.#apiService.getComments(filmId);
       return this.#comments;
     } catch (err) {
-      throw new Error('Can\'t get comments');
+      this.#comments = [];
     }
   }
 
@@ -24,7 +24,7 @@ export default class CommentsModel extends AbstractObservable {
     try {
       const response = await this.#apiService.addComment(filmId, comment);
       this.#comments = response.comments;
-      this.#filmsModel.addComment(updateType, filmId, this.#comments);
+      await this.#filmsModel.addComment(updateType, filmId, this.#comments);
     } catch (err) {
       throw new Error('Can\'t add comment');
     }
@@ -45,7 +45,7 @@ export default class CommentsModel extends AbstractObservable {
         ...this.#comments.slice(index + 1),
       ];
 
-      this.#filmsModel.deleteComment(updateType, id);
+      await this.#filmsModel.deleteComment(updateType, id);
     } catch (err) {
       throw new Error('Can\'t delete comment');
     }

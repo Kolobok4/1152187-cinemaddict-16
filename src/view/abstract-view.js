@@ -27,11 +27,10 @@ export default class AbstractView {
     this.#element = null;
   }
 
-  shake(element, callback) {
-    element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+  shake() {
+    this.#element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
     setTimeout(() => {
-      element.style.animation = '';
-      callback();
+      this.#element.style.animation = '';
     }, SHAKE_ANIMATION_TIMEOUT);
   }
 }
