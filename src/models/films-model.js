@@ -39,7 +39,7 @@ export default class FilmsModel extends AbstractObservable {
   get userRank() {
     const count = filter.history(this.films).length;
     if (count === 0) {
-      return null;
+      return ' ';
     }
     if (count <= 10) {
       return 'Novice';
