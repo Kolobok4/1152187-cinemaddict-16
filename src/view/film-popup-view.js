@@ -83,10 +83,10 @@ const createFilmDetailsTemplate = ({
     release,
     runtime,
     description,
-    genre
+    genres
   } = filmInfo;
 
-  const genresTemplate = genre.map(createFilmsGenreTemplate).join('');
+  const genresTemplate = genres.map(createFilmsGenreTemplate).join('');
   const commentsTemplate = createCommentsTemplate(comments, activeEmoji, commentText, isDisabled, deletingCommentId);
 
   return `<section class="film-details">
@@ -140,7 +140,7 @@ const createFilmDetailsTemplate = ({
                 <td class="film-details__cell">${release.releaseCountry}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">${genre.length > 1 ? 'Genres' : 'Genre'}</td>
+                <td class="film-details__term">${genres.length > 1 ? 'Genres' : 'Genre'}</td>
                 <td class="film-details__cell">
                   ${genresTemplate}
                 </td>

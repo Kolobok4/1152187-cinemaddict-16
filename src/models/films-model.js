@@ -111,6 +111,7 @@ export default class FilmsModel extends AbstractObservable {
         alternativeTitle: filmInfo['alternative_title'],
         totalRating: filmInfo['total_rating'],
         ageRating: filmInfo['age_rating'],
+        genres: filmInfo['genre'],
         release: {
           date: new Date(filmInfo['release']['date']),
           releaseCountry: filmInfo['release']['release_country']
