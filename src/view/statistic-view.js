@@ -1,6 +1,6 @@
 import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {BAR_HEIGHT, StatsFilterType} from '../const';
+import {BAR_HEIGHT, ColorStats, StatsFilterType} from '../const';
 import SmartView from './smart-view';
 
 
@@ -12,8 +12,8 @@ const renderGenresChart = (statisticCtx, genresStats) => (
       labels: [...genresStats.keys()],
       datasets: [{
         data: [...genresStats.values()],
-        backgroundColor: '#ffe800',
-        hoverBackgroundColor: '#ffe800',
+        backgroundColor: ColorStats.YELLOW,
+        hoverBackgroundColor: ColorStats.YELLOW,
         anchor: 'start',
         barThickness: 24,
       }],
@@ -25,7 +25,7 @@ const renderGenresChart = (statisticCtx, genresStats) => (
           font: {
             size: 20,
           },
-          color: '#ffffff',
+          color: ColorStats.WHITE,
           anchor: 'start',
           align: 'start',
           offset: 40,
@@ -34,7 +34,7 @@ const renderGenresChart = (statisticCtx, genresStats) => (
       scales: {
         yAxes: [{
           ticks: {
-            fontColor: '#ffffff',
+            fontColor: ColorStats.WHITE,
             padding: 100,
             fontSize: 20,
           },
