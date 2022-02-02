@@ -5,7 +5,7 @@ import ShowMoreButtonView from '../view/show-more-button-view';
 import FilmCardView from '../view/film-card-view';
 import {
   ActionType, bodyElement, FILM_COUNT_PER_STEP,
-  FilterType, keyName, NoFilmsText,
+  FilterType, KeyName, NoFilmsText,
   SortType, State, UpdateType
 } from '../const';
 import PopupFilmView from '../view/film-popup-view';
@@ -205,12 +205,12 @@ export default class FilmsPresenter {
   }
 
   #handleKeydown = (evt) => {
-    if (evt.key === keyName.SEND && (evt.ctrlKey || evt.metaKey)) {
+    if (evt.key === KeyName.SEND && (evt.ctrlKey || evt.metaKey)) {
       this.#addComment();
       return;
     }
 
-    if (evt.key === keyName.CLOSE_SHORT || evt.key === keyName.CLOSE_LONG) {
+    if (evt.key === KeyName.CLOSE_SHORT || evt.key === KeyName.CLOSE_LONG) {
       evt.preventDefault();
       this.#closeDetails();
     }

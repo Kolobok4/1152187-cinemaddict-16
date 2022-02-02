@@ -9,7 +9,7 @@ export const CONTROL_ACTIVE_CLASS = 'film-details__control-button--active';
 export const API_URL = 'https://16.ecmascript.pages.academy/cinemaddict';
 export const API_AUTHORIZATION = 'Basic jkfs46fsd56kc';
 
-export const keyName = {
+export const KeyName = {
   CLOSE_SHORT: 'Esc',
   CLOSE_LONG: 'Escape',
   SEND:  'Enter',
