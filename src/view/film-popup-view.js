@@ -163,11 +163,11 @@ const createFilmDetailsTemplate = ({
   </section>`;
 };
 
-export default class PopupFilmView extends SmartView {
+export default class FilmPopupView extends SmartView {
   constructor(film, comments) {
     super();
     this._data = {
-      film: PopupFilmView.parseFilmToData(film),
+      film: FilmPopupView.parseFilmToData(film),
       comments: comments
     };
 
@@ -224,7 +224,7 @@ export default class PopupFilmView extends SmartView {
   #controlClickHandler = (evt) => {
     evt.preventDefault();
     this._callback.controlClick(
-      PopupFilmView.parseDataToFilm(this._data.film),
+      FilmPopupView.parseDataToFilm(this._data.film),
       evt.target.getAttribute('name')
     );
   }

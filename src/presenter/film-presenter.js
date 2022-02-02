@@ -8,11 +8,11 @@ import {
   FilterType, KeyName, NoFilmsText,
   SortType, State, UpdateType
 } from '../const';
-import PopupFilmView from '../view/film-popup-view';
 import FilmListContainerView from '../view/film-list-container-view';
 import FilmsListView from '../view/film-list-view';
 import {getSortedFilms} from '../utils/films';
 import {filter} from '../utils/filters';
+import FilmPopupView from '../view/film-popup-view';
 
 export default class FilmsPresenter {
   #boardContainer = null;
@@ -189,7 +189,7 @@ export default class FilmsPresenter {
 
     const comments = await this.#commentsModel.getComments(film.id);
 
-    this.#detailsComponent = new PopupFilmView(film, comments);
+    this.#detailsComponent = new FilmPopupView(film, comments);
     bodyElement.classList.add('hide-overflow');
     render(bodyElement, this.#detailsComponent);
 
